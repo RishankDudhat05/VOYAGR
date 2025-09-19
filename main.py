@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, Path
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
 from typing import Optional
 
@@ -9,7 +9,7 @@ class users:
     username: str
     password: str
 
-    def _init_(self, id, username, password):
+    def __init__(self, id, username, password):
         self.id = id
         self.username = username
         self.password = password
@@ -28,24 +28,30 @@ class UserModel(BaseModel):
             }
         }
     }
+
 user_data = [users(1, "hello123", "hello"), users(2, "test123", "Test12")]
 
 def get_next_id() -> int:
     return max(user.id for user in user_data) + 1 if user_data else 1
 
-@app.post("/signup")
-async def signup(
-    data: UserModel = ...
-):
+@app.post("/signup", status_code=status.HTTP_201_CREATED)
+async def signup(data: UserModel):
+    for user in user_data:
+        if user.username == data.username:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Username already exists"
+            )
     new_id = data.id if data.id is not None else get_next_id()
     user_data.append(users(new_id, data.username, data.password))
-    return {"id": new_id, "username": data.username}
+    return {"id": new_id, "username": data.username, "message": "User created successfully"}
 
-@app.post("/login")
-async def login(
-    data: UserModel = ...
-):
+@app.post("/login", status_code=status.HTTP_200_OK)
+async def login(data: UserModel):
     for user in user_data:
         if user.username == data.username and user.password == data.password:
             return {"message": "Login Successful"}
-    return {"message": "User not found"}
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid username or password"
+    )
