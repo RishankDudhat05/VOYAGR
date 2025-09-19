@@ -43,12 +43,17 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
 
     return new_user
 
-@app.post("/login", status_code=status.HTTP_200_OK)
-async def login(data: UserModel):
-    for user in user_data:
-        if user.username == data.username and user.password == data.password:
-            return {"message": "Login Successful"}
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Invalid username or password"
-    )
+@app.post("/login", response_model=UserResponse)
+def login(user: UserCreate, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(
+        User.email_id == user.email_id,
+        User.password == user.password  # ⚠ plain text comparison
+    ).first()
+
+    if not db_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password"
+        )
+
+    return db_user
