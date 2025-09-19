@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 app = FastAPI()
 
@@ -8,15 +8,15 @@ class users:
     username: str
     password: str
 
-    def __init__(self, id, username, password):
+    def _init_(self, id, username, password):
         self.id = id
         self.username = username
         self.password = password
 
 class UserModel(BaseModel):
-    id: int
-    username: str
-    password: str
+    id: int = Field(..., gt=0, description="User ID must be a positive integer")
+    username: str = Field(..., min_length=3, max_length=20, description="Username must be 3-20 characters long")
+    password: str = Field(..., min_length=6, description="Password must be at least 6 characters long")
 
 user_data = [users(1, "hello123", "hello"), users(2, "test123", "Test12")]
 
