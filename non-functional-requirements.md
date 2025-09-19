@@ -36,3 +36,13 @@ The system shall provide continuous and reliable access to users with minimal do
 - In case of failure, recovery shall occur within **< 5 minutes**.  
 
 ---
+
+## 4. Data Security
+
+**Description:**  
+The system shall ensure that user data is protected against unauthorized access, misuse, and breaches.  
+
+**Acceptance Criteria:**  
+- Data shall be encrypted both in transit.  
+- Role-based access control (RBAC) shall be enforced.  
+- System shall comply with GDPR and other relevant data protection standards.  
