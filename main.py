@@ -1,50 +1,47 @@
-from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel, Field
-from typing import Optional
+from fastapi import FastAPI, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from database import SessionLocal, engine, Base
+from models import User
+from schemas import UserCreate, UserResponse
+
+# Create database tables
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-class users:
-    id: int
-    username: str
-    password: str
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+        
+@app.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def signup(user: UserCreate, db: Session = Depends(get_db)):
+    existing_user_by_email = db.query(User).filter(User.email_id == user.email_id).first()
+    if existing_user_by_email:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email is already registered."
+        )
 
-    def __init__(self, id, username, password):
-        self.id = id
-        self.username = username
-        self.password = password
+    existing_user_by_name = db.query(User).filter(User.name == user.name).first()
+    if existing_user_by_name:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username already exists. Please choose another one."
+        )
 
-class UserModel(BaseModel):
-    id: Optional[int] = Field(None, ge=1, description="User ID must be positive")
-    username: str = Field(..., min_length=3, max_length=20, description="Username must be 3-20 characters long")
-    password: str = Field(..., min_length=6, description="Password must be at least 6 characters long")
+    new_user = User(
+        name=user.name,
+        email_id=user.email_id,
+        password=user.password   # ⚠️ plain text storage
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
 
-    model_config = {
-        "json_schema_extra": {
-            "example": {
-                "id": 1,
-                "username": "testuser",
-                "password": "secret123"
-            }
-        }
-    }
-
-user_data = [users(1, "hello123", "hello"), users(2, "test123", "Test12")]
-
-def get_next_id() -> int:
-    return max(user.id for user in user_data) + 1 if user_data else 1
-
-@app.post("/signup", status_code=status.HTTP_201_CREATED)
-async def signup(data: UserModel):
-    for user in user_data:
-        if user.username == data.username:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Username already exists"
-            )
-    new_id = data.id if data.id is not None else get_next_id()
-    user_data.append(users(new_id, data.username, data.password))
-    return {"id": new_id, "username": data.username, "message": "User created successfully"}
+    return new_user
 
 @app.post("/login", status_code=status.HTTP_200_OK)
 async def login(data: UserModel):
