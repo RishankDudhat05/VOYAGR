@@ -1,7 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Body
 
-app=FastAPI()
+app = FastAPI()
 
-@app.get("/me")
-async def is_check():
-  return "end point is working"
+@app.post("/signup")
+async def signup(data: Body()):
+  return {"status": "accepted", "data": data}
