@@ -5,4 +5,4 @@ SQLAlchemy==2.0.34
 python-jose==3.3.0
 passlib[bcrypt]==1.7.4
 langchain
-langchain-groq
+langchain_groq
