@@ -13,9 +13,6 @@ router = APIRouter(
     tags=["Travel & Places Recommendation AI"]
 )
 
-# -----------------------------
-# LangChain Setup
-# -----------------------------
 
 # 1. Model
 llm = ChatGroq(
