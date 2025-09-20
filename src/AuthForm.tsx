@@ -31,7 +31,8 @@ export default function AuthForm() {
       return "Password must be 6-20 characters";
     if (!/[A-Z]/.test(pwd))
       return "Password must contain at least one uppercase letter";
-    if (!/[0-9]/.test(pwd)) return "Password must contain at least one number";
+    if (!/[0-9]/.test(pwd))
+      return "Password must contain at least one number";
     return "";
   };
 
@@ -44,7 +45,7 @@ export default function AuthForm() {
       const pwdError = validatePassword(password);
 
       if (nameError || pwdError) {
-        setErrorMsg(nameError || pwdError);
+        setErrorMsg(nameError);
         setPasswordError(pwdError);
         return;
       }
@@ -57,23 +58,23 @@ export default function AuthForm() {
         formData.append("username", email);
         formData.append("password", password);
 
-        const res = await fetch(${backendUrl}/auth/token, {
+        const res = await fetch(`${backendUrl}/auth/token`, {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: formData,
         });
 
-        const data = await res.json();
+        const data: { access_token?: string; detail?: string } = await res.json();
 
-        if (res.ok) {
+        if (res.ok && data.access_token) {
           localStorage.setItem("access_token", data.access_token);
-          navigate("/prompt"); // ✅ Redirect to PromptPage
+          navigate("/prompt");
         } else {
           setErrorMsg(data.detail || "Login failed");
         }
       } else {
         // Signup
-        const res = await fetch(${backendUrl}/auth/signup, {
+        const res = await fetch(`${backendUrl}/auth/signup`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -83,11 +84,11 @@ export default function AuthForm() {
           }),
         });
 
-        const data = await res.json();
+        const data: { access_token?: string; detail?: string } = await res.json();
 
-        if (res.ok) {
+        if (res.ok && data.access_token) {
           localStorage.setItem("access_token", data.access_token);
-          navigate("/prompt"); // ✅ Redirect to PromptPage
+          navigate("/prompt");
         } else {
           setErrorMsg(data.detail || "Signup failed");
         }
