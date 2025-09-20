@@ -185,3 +185,33 @@ This story addresses NFR 2 (Performance). This was based on the survey, where us
 
 #### Source Justification
 This story addresses NFR 3 (System Availability). The requirement for 24/7 access was defined during team brainstorming.
+
+---
+
+### US-13: Secure User Authentication
+
+#### User Story
+> *As a* user,
+> *I want to* create a secure account and log in reliably,
+> *So that* I know my personal information and trip plans are protected.
+
+#### Acceptance Criteria
+- *And I know I am done when:* All user passwords are encrypted using modern hashing algorithms and role-based access control is enforced.
+
+#### Source Justification
+This story addresses NFR 4 (Data Security). The need for secure authentication was established during team brainstorming.
+
+---
+
+### US-14: Data Privacy Confidence
+
+#### User Story
+> *As a* user,
+> *I want to* be confident that my travel data is private and not shared without my consent,
+> *So that* I can trust the application.
+
+#### Acceptance Criteria
+- *And I know I am done when:* All data is encrypted in transit (HTTPS) and the system complies with data protection standards like GDPR.
+
+#### Source Justification
+This story addresses NFR 4 (Data Security). This fundamental requirement for user trust was established during team brainstorming.
