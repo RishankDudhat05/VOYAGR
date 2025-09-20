@@ -57,7 +57,7 @@ export default function AuthForm() {
         formData.append("username", email);
         formData.append("password", password);
 
-        const res = await fetch(`${backendUrl}/token`, {
+        const res = await fetch(${backendUrl}/auth/token, {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: formData,
@@ -73,7 +73,7 @@ export default function AuthForm() {
         }
       } else {
         // Signup
-        const res = await fetch(`${backendUrl}/signup`, {
+        const res = await fetch(${backendUrl}/auth/signup, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
