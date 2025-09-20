@@ -1,11 +1,11 @@
 # VOYAGR – Epic Breakdown
-##Epic 1: Authentication & User Management
+## Epic 1: Authentication & User Management
 
--nCovers user onboarding, profile setup, and persistence.
+- Covers user onboarding, profile setup, and persistence.
 
--nSprint 1: Email/password sign-up, login, session handling.
+- Sprint 1: Email/password sign-up, login, session handling.
 
--nSprint 1: User profile storing home city, currency, and preferences.
+- Sprint 1: User profile storing home city, currency, and preferences.
 
 ## Epic 2: Trip Intake & Itinerary Generation (MVP)
 
