@@ -1,9 +1,11 @@
 from config import GROQ_API_KEY
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException,Depends
 from langchain_groq import ChatGroq
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.exceptions import OutputParserException
+from .auth_routes import get_current_user
+from schemas import UserResponse
 
 router = APIRouter(
     prefix="/travel",
@@ -51,7 +53,7 @@ chain = prompt_template | llm | parser
 
 # --- FastAPI Endpoint (Simplified) ---
 @router.get("/generate", summary="Ask AI for travel, food, or lifestyle questions")
-async def generate_response(prompt: str = Query(..., description="Your travel/food/places/lifestyle question")):
+async def generate_response(prompt: str = Query(..., description="Your travel/food/places/lifestyle question"),current_user: UserResponse = Depends(get_current_user)):
     """
     Example prompts:
       - Plan me a 3-day trip to Paris
