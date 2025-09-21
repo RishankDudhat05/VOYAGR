@@ -45,4 +45,29 @@ The system shall ensure that user data is protected against unauthorized access,
 **Acceptance Criteria:**  
 - Data shall be encrypted both in transit.  
 - Role-based access control (RBAC) shall be enforced.  
-- System shall comply with GDPR and other relevant data protection standards.  
+- System shall comply with GDPR and other relevant data protection standards.
+
+---
+
+ ## 5. Scalability
+
+**Description:**  
+The system shall be able to handle increasing numbers of users, data, and transactions without performance degradation.  
+
+**Acceptance Criteria:**  
+- The system shall support at least *X concurrent users* (to be determined) without noticeable slowdown.  
+- The system shall allow both horizontal (adding servers) and vertical (upgrading hardware) scaling.  
+- Database queries shall remain efficient (≤ 2 seconds) even with **10× expected data growth**.  
+
+---
+
+## 6. Maintainability
+
+**Description:**  
+The system shall be designed for easy maintenance, updates, and extensions, minimizing the risk of introducing defects.  
+
+**Acceptance Criteria:**  
+- Code shall follow standard coding conventions and be well-documented.  
+- At least **80% unit test coverage** shall be maintained for core modules.  
+- New developers shall be able to onboard and contribute within **2 weeks**.  
+- The system shall include automated monitoring and logging for quick issue detection.  
