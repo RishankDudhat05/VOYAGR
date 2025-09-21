@@ -1,3 +1,6 @@
+<img width="257" height="68" alt="voyagr_logo_ws" src="https://github.com/user-attachments/assets/177f7fea-702c-40b4-83ac-9c6804ca1570" />
+
+
 # VOYAGR – Proof of Concept (PoC)
 
 ## Objective
@@ -42,7 +45,7 @@ Implemented using SQLAlchemy ORM with SQLite.
 - User: stores profile credentials.  
 - Trip: linked to a user, contains trip metadata.  
 - ItineraryDay: linked to a trip, stores daily details.  
-- Activity: optional, stores detailed tasks per day.  
+- Activity: optional, stores detailed tasks per day.      
 
 Ensures itineraries can be saved, retrieved, and extended in later sprints.
 
