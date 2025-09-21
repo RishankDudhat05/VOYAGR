@@ -76,6 +76,30 @@ Ensures itineraries can be saved, retrieved, and extended in later sprints.
 
 ---
 
+## Expected Outcome
+A new user can complete the journey:  
+- Register and log in.  
+- Enter trip details in the form.  
+- Receive a first-pass itinerary (stubbed with sample activities).  
+- Edit notes or regenerate a day.  
+- Save the itinerary.  
+
+---
+
+## Success Criteria
+- End-to-end user flow is functional in staging.  
+- Itinerary generation time < 8 seconds (using stubbed responses).  
+- ≥90% successful form submissions leading to an itinerary.  
+
+---
+
+## Limitations
+- No live place data yet (stubbed only).  
+- No maps, budget validation, or external API integration.  
+- Export and sharing features not included.
+
+---
+
 ## Next Steps
 - Replace SQLite with scalable database (Postgres).  
 - Implement full trip intake form with structured fields.  
