@@ -1,69 +1,55 @@
-# React + TypeScript + Vite
+<img width="257" height="68" alt="voyagr_logo_ws" src="https://github.com/user-attachments/assets/f5bd62ca-105a-42c0-b1a5-e8e0d0552366" />
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This frontend project VOYAGR - AI Powered Itinerary Planner provides an interactive interface for travelers to plan trips and discover places using AI. Users can:  
+- Create personalized travel itineraries.  
+- Search for attractions, restaurants, shopping spots, and hidden gems around the world.  
+- Interact with a clean and modern UI built with **React.js**, **Vite**, **TypeScript** and **Tailwind CSS**.  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### AI-Enabled Itinerary Planner
+- Enter your travel prompt and get a complete suggested itinerary (current strategy, further to be upgraded).  
+- Daily schedules with optimized routes, top attractions, and recommended activities.  
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Smart Places Searcher
+- Type any location, interest, or keyword.  
+- Receive curated suggestions for attractions, dining, shopping, and hidden gems.  
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Additional Features
+- Responsive design for desktop.  
+- Clean input components with password toggle and clear functionality.  
+- Interactive buttons and cards for smooth user experience.  
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Technologies Used
+
+- **React.js** for building UI components.  
+- **TypeScript** for type safety and cleaner code.  
+- **Tailwind CSS** for styling.  
+- **React Router** for navigation.  
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js >= 18.x  
+- npm or yarn  
+
+### Installation
+```bash
+git clone https://github.com/yourusername/travel-ai-frontend.git
+cd voyagr-frontend (navigate to frontend folder)
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Running on Web
+```bash
+npm run dev
 ```
+Then, follow the link ahead
