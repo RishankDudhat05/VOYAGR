@@ -226,7 +226,7 @@ This story addresses NFR 4 (Data Security). This fundamental requirement for use
 - *And I know I am done when:* My account and itinerary data automatically sync across web and mobile apps.  
 
 #### Source Justification  
-This story supports **NFR 1 (Usability)** and **NFR 5 (Scalability)**, ensuring smooth user experience across platforms.  
+This story supports NFR 1 (Usability) and NFR 5 (Scalability), ensuring smooth user experience across platforms.  
 
 ---
 
@@ -234,14 +234,14 @@ This story supports **NFR 1 (Usability)** and **NFR 5 (Scalability)**, ensuring 
 
 #### User Story 
 > *As a* traveler in a remote area,  
-> *I want to view my itinerary without internet connectivity,  
+> *I want to* view my itinerary without internet connectivity,  
 > *So that* I can still follow my plans when offline.  
 
 #### Acceptance Criteria 
 - *And I know I am done when:* I can open the app without internet and see my saved itinerary, with updates syncing once I reconnect.  
 
 #### Source Justification  
-This story enhances **System Availability & Usability**, identified as important for travelers in areas with limited connectivity.  
+This story enhances System Availability & Usability, identified as important for travelers in areas with limited connectivity.  
 
 ---
 
@@ -249,14 +249,14 @@ This story enhances **System Availability & Usability**, identified as important
 
 #### User Story  
 > *As a* traveler,  
-> *I want activity and restaurant recommendations based on my preferences (budget, interests, dietary restrictions),  
+> *I want to* activity and restaurant recommendations based on my preferences (budget, interests, dietary restrictions),  
 > *So that* my itinerary feels tailored to me.  
 
 #### Acceptance Criteria  
 - *And I know I am done when:* After entering preferences, the AI recommends relevant attractions and dining options.  
 
 #### Source Justification  
-This story extends **FR1 – AI-Powered Itinerary Generation**, making results more personalized.  
+This story extends FR2 – AI-Powered Itinerary Generation, making results more personalized.  
 
 ---
 
@@ -264,14 +264,14 @@ This story extends **FR1 – AI-Powered Itinerary Generation**, making results m
 
 #### User Story  
 > *As a* traveler,  
-> *I want to upload and store my tickets, visas, and IDs within the app,  
+> *I want to* upload and store my tickets, visas, and IDs within the app,  
 > *So that* I can easily access important documents during my trip.  
 
 #### Acceptance Criteria  
 - *And I know I am done when:* I can securely upload a file/PDF, organize it, and access it anytime from my trip dashboard.  
 
 #### Source Justification 
-This story supports **FR7 – Key Integrations** and **NFR 4 (Data Security)**, adding convenience and safety.  
+This story supports FR8 – Key Integrations and NFR 4 (Data Security), adding convenience and safety.  
 
 ---
 
@@ -279,14 +279,14 @@ This story supports **FR7 – Key Integrations** and **NFR 4 (Data Security)**, 
 
 #### User Story  
 > *As a* traveler from a non-English-speaking country,  
-> *I want to use the app in my preferred language,  
+> *I want to* use the app in my preferred language,  
 > *So that* I can easily understand features and instructions.  
 
 #### Acceptance Criteria  
 - *And I know I am done when:* The app supports at least 3–5 major global languages (e.g., English, Spanish, French, Hindi, Mandarin).  
 
 #### Source Justification  
-This story supports **NFR 1 (Usability)** and scalability for global adoption.  
+This story supports NFR 1 (Usability) and scalability for global adoption.  
 
 ---
 
@@ -294,21 +294,21 @@ This story supports **NFR 1 (Usability)** and scalability for global adoption.
 
 #### User Story  
 > *As a* traveler,  
-> *I want to read verified reviews from other travelers inside the app,  
+> *I want to* read verified reviews from other travelers inside the app,  
 > *So that* I can make informed decisions when choosing activities and hotels.  
 
 #### Acceptance Criteria  
 - *And I know I am done when:* Reviews are displayed alongside activities/hotels, with false or spam reviews flagged automatically.  
 
 #### Source Justification  
-This story enhances **FR2 – Real-Time Updates** and supports **Performance (misleading content detection)**.  
+This story enhances FR3 – Real-Time Updates and supports Performance (misleading content detection).  
 
 ---
 
 ### US-21: Carbon Footprint Tracker  
 #### User Story  
 > *As a* eco-conscious traveler,  
-> *I want to see the estimated carbon footprint of my flights and stays,  
+> *I want to* see the estimated carbon footprint of my flights and stays,  
 > *So that I can make sustainable travel choices.  
 
 #### Acceptance Criteria  
@@ -316,14 +316,14 @@ This story enhances **FR2 – Real-Time Updates** and supports **Performance (mi
 - *And I know I am done when:* I can filter options by “eco-friendly” or “low carbon impact.”  
 
 #### Source Justification  
-This story supports **Usability** (extra filtering option) and **Scalability** (future eco-features).  
+This story supports Usability (extra filtering option) and Scalability (future eco-features).  
 
 ---
 
 ### US-22: Emergency Assistance Button
 #### User Story  
 > *As a* traveler in an unfamiliar city,  
-> *I want a quick-access emergency assistance button in the app,  
+> *I want to* a quick-access emergency assistance button in the app,  
 > *So that* I can reach local emergency contacts or travel support instantly.  
 
 #### Acceptance Criteria  
@@ -331,7 +331,7 @@ This story supports **Usability** (extra filtering option) and **Scalability** (
 - *And I know I am done when:* Users can contact the travel helpline directly from the app.  
 
 #### Source Justification  
-This story supports **System Availability** and **Reliability** for critical scenarios.  
+This story supports System Availability and Reliability for critical scenarios.  
 
 ---
   
