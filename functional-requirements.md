@@ -85,3 +85,42 @@
   - Directly book hotels and transport within the platform.
   - Access live availability and pricing.
   - Simplify multi-service trip planning.
+    
+---
+
+## FR9 – Local Insights & Off-the-Beaten-Path Recommendations
+
+**Requirement:**  
+The system shall provide users with curated local insights, cultural tips, and recommendations for lesser-known attractions and dining options based on their profile and preferences.
+
+**Validation:**  
+- **Complements FR2 (AI Itinerary):** An AI plan shouldn't just include major tourist spots; true personalization comes from unique, local experiences.  
+- **User Expectation:** Modern travelers (especially those targeted by an AI tool) increasingly seek authentic experiences beyond standard guidebooks. This is a key differentiator from competitors.  
+- **Survey Extrapolation:** While not explicitly stated, this feature falls under the umbrella of "personalized recommendations" and enhances the core AI value.  
+
+**Usage:**  
+- Discover highly-rated local restaurants instead of generic tourist traps.  
+- Find unique activities, events, or hidden gems not listed on typical travel sites.  
+- Receive cultural do's and don'ts to travel more respectfully and intelligently.  
+- Enhance the travel experience by connecting with the local culture more deeply.  
+
+---
+
+## FR10 – Travel Document & Reservation Hub
+
+**Requirement:**  
+The system shall provide a secure, centralized digital repository for users to store and easily access critical travel documents, booking confirmations, and reservation details.
+
+**Validation:**  
+- **Critical User Need:** A common pain point in travel is juggling multiple confirmation emails, tickets, and passes. Centralizing this is a significant usability win.  
+- **Synergy with FR8 (Integrations):** Directly integrates with booking services (FR8) to auto-populate the hub with confirmed reservations (e.g., flight e-tickets, hotel bookings).  
+- **Synergy with FR7 (Export/Share):** Allows users to export a complete trip dossier, including not just the itinerary but all confirmations, for themselves or their group.  
+- **Security:** Complements FR1 (User Auth) by providing a secure place for sensitive data beyond the user profile.  
+
+**Usage:**  
+- Automatically store confirmation emails and e-tickets for flights, hotels, and tours booked through FR8 integrations.  
+- Manually upload important documents like passports, visas, or insurance certificates for secure, offline access.  
+- Quickly access all reservation details (e.g., booking references, addresses, times) in one place during travel, reducing stress and confusion.  
+- Share necessary documents (e.g., rental car reservation) easily with travel companions from the same hub.  
+
+
