@@ -1,11 +1,16 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from motor.motor_asyncio import AsyncIOMotorClient
+import os
+from dotenv import load_dotenv
 
-SQLALCHEMY_DATABASE_URL="sqlite:///./users.db"
+load_dotenv()
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL,connect_args={'check_same_thread': False})
+MONGODB_URL = os.getenv("MONGODB_URL")
+DATABASE_NAME = os.getenv("DATABASE_NAME")
 
-SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)
+client = AsyncIOMotorClient(MONGODB_URL)
+database = client[DATABASE_NAME]
 
-Base = declarative_base()
+users_collection = database.get_collection("users")
+
+async def get_database():
+    return database
