@@ -1,18 +1,18 @@
-from pydantic import BaseModel
 from pydantic import BaseModel, EmailStr, Field
 
 class UserCreate(BaseModel):
-    name: str = Field(..., min_length=4, max_length=20)  # min/max length constraints
+    name: str = Field(..., min_length=4, max_length=20)
     email_id: EmailStr
-    password: str = Field(..., min_length=6, max_length=20)  # min/max length constraints
+    password: str = Field(..., min_length=6, max_length=20)
 
 class UserResponse(BaseModel):
-    id: int
-    name: str            # New field
+    id: str = Field(..., alias="_id")
+    name: str            
     email_id: str
 
     class Config:
-        orm_mode = True
+        populate_by_name = True
+        from_attributes = True
 
 class Token(BaseModel):
     access_token: str
