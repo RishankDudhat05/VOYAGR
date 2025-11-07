@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import TextField from "./input_field";
-import Button from "./Button";
+// import Button from "./Button";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function AuthForm() {
@@ -31,8 +31,7 @@ export default function AuthForm() {
       return "Password must be 6-20 characters";
     if (!/[A-Z]/.test(pwd))
       return "Password must contain at least one uppercase letter";
-    if (!/[0-9]/.test(pwd))
-      return "Password must contain at least one number";
+    if (!/[0-9]/.test(pwd)) return "Password must contain at least one number";
     return "";
   };
 
@@ -45,7 +44,7 @@ export default function AuthForm() {
       const pwdError = validatePassword(password);
 
       if (nameError || pwdError) {
-        setErrorMsg(nameError);
+        setErrorMsg(nameError || pwdError);
         setPasswordError(pwdError);
         return;
       }
@@ -58,23 +57,23 @@ export default function AuthForm() {
         formData.append("username", email);
         formData.append("password", password);
 
-        const res = await fetch(`${backendUrl}/auth/token`, {
+        const res = await fetch(`${backendUrl}/token`, {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: formData,
         });
 
-        const data: { access_token?: string; detail?: string } = await res.json();
+        const data = await res.json();
 
-        if (res.ok && data.access_token) {
+        if (res.ok) {
           localStorage.setItem("access_token", data.access_token);
-          navigate("/prompt");
+          navigate("/prompt"); // Redirect to PromptPage
         } else {
           setErrorMsg(data.detail || "Login failed");
         }
       } else {
         // Signup
-        const res = await fetch(`${backendUrl}/auth/signup`, {
+        const res = await fetch(`${backendUrl}/signup`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -84,11 +83,11 @@ export default function AuthForm() {
           }),
         });
 
-        const data: { access_token?: string; detail?: string } = await res.json();
+        const data = await res.json();
 
-        if (res.ok && data.access_token) {
+        if (res.ok) {
           localStorage.setItem("access_token", data.access_token);
-          navigate("/prompt");
+          navigate("/prompt"); // Redirect to PromptPage
         } else {
           setErrorMsg(data.detail || "Signup failed");
         }
@@ -100,63 +99,121 @@ export default function AuthForm() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-fit mt-4">
-      <div className="w-full max-w-md rounded-xl border border-gray-300 shadow-lg p-8 bg-transparent">
-        <h2 className="text-2xl font-bold mb-6 text-center font-nunito">
-          {isLogin ? "Login" : "Sign Up"}
-        </h2>
-
-        {errorMsg && <p className="text-red-500 text-center">{errorMsg}</p>}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {!isLogin && (
-            <TextField
-              label="Name"
-              type="text"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          )}
-
-          <TextField
-            label="Email"
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+    <div className="min-h-screen flex items-center justify-center px-6 py-10 font-nunito">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl h-full items-stretch">
+        {/* LEFT PANEL */}
+        <div className="relative rounded-2xl overflow-hidden h-full">
+          <video
+            className="absolute inset-0 w-full h-full object-cover"
+            src="bg_video.mp4" // put your mp4 in public/assets or adjust path
+            autoPlay
+            muted
+            loop
+            playsInline
           />
-
-          <TextField
-            label="Password"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setPasswordError(validatePassword(e.target.value));
-            }}
-          />
-          {passwordError && (
-            <p className="text-red-500 text-sm">{passwordError}</p>
-          )}
-
-          <div className="flex justify-center">
-            <Button color="black" variant="filled">
-              {isLogin ? "Login" : "Sign Up"}
-            </Button>
+          <div className="absolute inset-0 bg-myblack/50" aria-hidden="true" />
+          <div className="relative z-10 p-10 flex flex-col justify-center text-myred-100 h-full">
+            <h1 className="text-[5rem] text-mywhite leading-tight font-bold tracking-widest">
+              {isLogin ? (
+                <>
+                  L O G<br />
+                  <span className="font-thin">I N</span>
+                </>
+              ) : (
+                <>
+                  S I G N<br />
+                  <span className="font-thin">U P</span>
+                </>
+              )}
+            </h1>
           </div>
-        </form>
+        </div>
 
-        <p className="text-center mt-4 text-gray-600 font-nunito">
-          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-          <button
-            onClick={() => setIsLogin(!isLogin)}
-            className="text-blue-600 font-semibold hover:underline"
-          >
-            {isLogin ? "Sign Up" : "Login"}
-          </button>
-        </p>
+        {/* RIGHT PANEL */}
+        <div className="bg-mywhite backdrop-blur-xl border-2 border-myblack/40 shadow-md rounded-3xl p-10 h-full flex items-center">
+          <form onSubmit={handleSubmit} className="space-y-6 w-full">
+            {!isLogin && (
+              <TextField
+                label="Username"
+                type="text"
+                placeholder="e.g. johndoe123"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            )}
+
+            <TextField
+              label="E-mail"
+              type="email"
+              placeholder="e.g. johndoe123@mymail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <TextField
+              label="New Password"
+              type="password"
+              placeholder="enter your new password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError(validatePassword(e.target.value));
+              }}
+            />
+
+            {!isLogin && (
+              <TextField
+                label="Confirm Password"
+                type="password"
+                placeholder="enter your confirm password"
+              />
+            )}
+
+            {errorMsg && (
+              <p className="text-red-500 text-sm text-center">{errorMsg}</p>
+            )}
+            {passwordError && (
+              <p className="text-red-500 text-sm">{passwordError}</p>
+            )}
+
+            {/* BOTTOM BUTTONS */}
+            <div className="flex items-center justify-between pt-4">
+              <div className="text-myred-700">
+                {isLogin
+                  ? "Don't have an account?"
+                  : "Already have an account?"}{" "}
+                <button
+                  type="button"
+                  onClick={() => setIsLogin(!isLogin)}
+                  className="font-semibold underline hover:text-blue-600"
+                >
+                  {isLogin ? "Sign Up" : "Log In"}
+                </button>
+              </div>
+
+              <div className="flex gap-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setName("");
+                    setEmail("");
+                    setPassword("");
+                  }}
+                  className="px-6 py-2 rounded-full border border-myblack hover:bg-myred/100"
+                >
+                  Clear
+                </button>
+
+                <button
+                  type="submit"
+                  className="px-8 py-2 rounded-full bg-myblack text-mywhite hover:bg-myred/900"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
