@@ -15,23 +15,23 @@ const colorClasses: Record<
     filled_wout_border: string;
   }
 > = {
-  gray: {
+  myred: {
     solid:
-      "bg-gray-800 text-white border border-gray-800 hover:bg-gray-700 hover:text-white",
+      "bg-myred text-mywhite border border-myred hover:bg-gray-700 hover:border-gray-800 hover:text-mywhite",
     filled:
-      "bg-white text-gray-800 border-2 border-gray-800 hover:bg-gray-800 hover:text-white",
-    wout_border: "bg-white text-gray-800 hover:bg-gray-700 hover:text-white",
+      "bg-myred text-mywhite border-2 border-mywhite hover:bg-mywhite hover:text-myred hover:border-2 hover:border-myred",
+    wout_border: "bg-mywhite text-myblack hover:bg-myred hover:text-mywhite",
     filled_wout_border:
-      "bg-gray-800 text-white font-bold hover:bg-white hover:text-gray-800",
+      "bg-myred text-mywhite font-bold hover:bg-mywhite hover:text-myred",
   },
-  black: {
+  myblack: {
     solid:
-      "bg-black text-white border border-black hover:bg-gray-700 hover:border-gray-800 hover:text-white",
+      "bg-myblack text-mywhite border border-myblack hover:bg-gray-700 hover:border-gray-800 hover:text-mywhite",
     filled:
-      "bg-black text-white border-2 border-white hover:bg-white hover:text-black hover:border-2 hover:border-black",
-    wout_border: "bg-white text-black hover:bg-gray-900 hover:text-white",
+      "bg-myblack text-mywhite border-2 border-mywhite hover:bg-mywhite hover:text-myblack hover:border-2 hover:border-myblack",
+    wout_border: "bg-mywhite text-myblack hover:bg-gray-900 hover:text-mywhite",
     filled_wout_border:
-      "bg-black text-white font-bold hover:bg-white hover:text-black",
+      "bg-myblack text-mywhite font-bold hover:bg-mywhite hover:text-myblack",
   },
 };
 
@@ -47,7 +47,7 @@ interface ButtonProps {
 
 export default function Button({
   children,
-  color = "gray",
+  color = "myred",
   variant = "solid",
   onClick,
   onMouseDown,
