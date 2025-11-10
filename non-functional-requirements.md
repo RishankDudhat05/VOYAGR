@@ -116,5 +116,10 @@ The system shall be designed to be usable by people with a wide range of abiliti
 
 # 10. Privacy & Data Ethics
 
+**Description:**  
+Since *Voyagr AI* uses artificial intelligence to analyze user preferences and generate personalized travel itineraries, it must handle personal data responsibly and ethically.  
+
+
+
 
   
