@@ -119,6 +119,15 @@ The system shall be designed to be usable by people with a wide range of abiliti
 **Description:**  
 Since *Voyagr AI* uses artificial intelligence to analyze user preferences and generate personalized travel itineraries, it must handle personal data responsibly and ethically.  
 
+**Acceptance Criteria:**  
+- The system shall obtain explicit user consent before collecting or analyzing personal data (e.g., location, preferences, travel history).  
+- All user data used for AI model training shall be anonymized and securely stored.  
+- Users shall be able to view, download, and delete their personal data upon request.  
+- The recommendation engine shall provide transparent reasoning or “**Why this suggestion?**” explanations for generated itineraries.  
+- Regular audits shall be conducted to detect and mitigate algorithmic bias in AI-driven travel recommendations.  
+- The system shall comply with relevant AI ethics and privacy regulations (e.g., GDPR, ISO/IEC 27018).
+
+---
 
 
 
