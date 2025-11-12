@@ -160,7 +160,7 @@ export default function ResultPage() {
         <div className="flex justify-center mt-8">
           <Button
             variant="filled_wout_border"
-            color="black"
+            color="myblack"
             onClick={() => window.history.back()} // Go back to previous page
           >
             Plan Another Trip

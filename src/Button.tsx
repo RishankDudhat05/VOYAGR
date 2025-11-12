@@ -1,3 +1,5 @@
+import React from "react";
+
 const buttonStyle = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
   .font-nunito {
@@ -5,7 +7,6 @@ const buttonStyle = `
   }
 `;
 
-//variants
 const colorClasses: Record<
   string,
   {
@@ -35,6 +36,10 @@ const colorClasses: Record<
   },
 };
 
+// Add color aliases
+colorClasses.red = colorClasses.myred;
+colorClasses.black = colorClasses.myblack;
+
 interface ButtonProps {
   children: React.ReactNode;
   color?: keyof typeof colorClasses;
@@ -54,6 +59,9 @@ export default function Button({
   onMouseUp,
   onMouseLeave,
 }: ButtonProps) {
+  const selectedColor = colorClasses[color] || colorClasses.myred;
+  const selectedVariant = selectedColor[variant] || selectedColor.solid;
+
   return (
     <>
       <style>{buttonStyle}</style>
@@ -62,14 +70,12 @@ export default function Button({
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseLeave}
-        className={`
-          inline-flex items-center justify-center m-2
+        className={`inline-flex items-center justify-center m-2
           text-base font-medium rounded-full
           shadow-sm font-nunito
           transition-colors duration-200
           px-4 py-2
-          ${colorClasses[color][variant]}
-        `}
+          ${selectedVariant}`}
       >
         {children}
       </button>

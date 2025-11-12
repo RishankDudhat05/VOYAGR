@@ -24,23 +24,26 @@ export default function ContentSection() {
         {/* main bento box layout */}
         <div className="flex flex-col w-full mr-4">
           <div className="flex flex-row flex-wrap m-0 p-0 w-full">
-            <div className="flex-[2_1_0%] h-72 m-2 p-0 border-2 rounded-lg shadow-sm">
+            <div className="flex-[2_1_0%] h-72 m-2 p-0 border-2 rounded-lg shadow-sm relative overflow-hidden">
               <img
-                src="logo_0.png"
+                src="backdrop.png"
                 alt="LogoBackdrop"
-                className="w-full h-full object-contain object-center rounded-lg"
+                className="absolute inset-0 w-full h-full object-cover object-center rounded-lg"
               />
             </div>
-            <div className="flex-[3_1_0%] h-72 m-2 p-0 border-2 rounded-lg shadow-sm">
+            <div className="flex-[3_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
               <TextField
                 label="Write your testimonial!"
                 type="text"
                 placeholder="Write your review here..."
-                value="hi there"
-                className="bg-mywhite"
+                defaultValue="hi there"
+                className={`w-full text-myred p-4 rounded-lg shadow-sm transition-colors duration-150
+              bg-myred/90 placeholder:text-gray-400 border border-gray-700
+              focus:outline-none focus:ring-2 focus:ring-mywhite/20
+              dark:bg-myred/90 dark:text-myblack dark:placeholder:text-gray-500 dark:border-gray-200 dark:focus:ring-myblack/20`}
               />
             </div>
-            <div className="flex-[1_1_0%] h-72 m-2 p-0 border-2 rounded-lg shadow-sm">
+            <div className="flex-[1_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
               <ContentCard heading=" ✈️ Smart Personalized Trips">
                 Get custom travel itineraries based on your interests, budget,
                 and time. No templates — your trip feels uniquely yours, every
@@ -55,25 +58,51 @@ export default function ContentSection() {
                 alt="PlaceBackdrop"
                 className="absolute inset-0 w-full h-full object-cover object-center"
               />
-              <p className="absolute bottom-32 left-24 z-10 m-0 p-2 font-extrabold text-4xl italic text-white">
-                Great Places
-              </p>
-              <p className="absolute bottom-8 left-24 z-10 m-0 p-2 font-thin text-5xl text-white">
-                Unforgettable Memories
-              </p>
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.32) 32%, rgba(0,0,0,0) 60%)",
+                  mixBlendMode: "overlay",
+                }}
+              />
+
+              {/* simple text blocks without glass effects */}
+              <div className="absolute bottom-16 left-4 z-10 m-0 p-0">
+                <div className="rounded-md px-4 py-2">
+                  <p className="m-0 p-0 font-extrabold text-5xl italic text-white">
+                    Great Places
+                  </p>
+                </div>
+              </div>
+
+              <div className="absolute bottom-6 left-6 z-10 m-0 p-0">
+                <div className="rounded-md px-4 py-2">
+                  <p className="m-0 p-0 font-thin text-2xl text-white">
+                    Unforgettable Memories
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="flex-[2_1_0%] h-72 m-2 p-0 border-2 rounded-lg shadow-sm">
-              <ContentCard heading="🔄 Dynamic Real-Time Adjustments">
-                Plans change? Weather shifts? Crowds hit? Your itinerary updates
-                instantly with new routes, recommendations, and optimal timings.
-              </ContentCard>
+
+            <div className="flex-[2_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
+              <div className="h-full p-4 rounded-lg bg-mywhite/6 backdrop-blur-sm border border-white/10">
+                <ContentCard heading="🔄 Dynamic Real-Time Adjustments">
+                  Plans change? Weather shifts? Crowds hit? Your itinerary
+                  updates instantly with new routes, recommendations, and
+                  optimal timings.
+                </ContentCard>
+              </div>
             </div>
-            <div className="flex-[2_1_0%] h-72 m-2 p-0 border-2 rounded-lg shadow-sm">
-              <ContentCard heading="📍Local-Inspired Recommendations">
-                Discover hidden gems, local favorites, and authentic experiences
-                curated by AI trained on real traveler feedback and regional
-                insights.
-              </ContentCard>
+
+            <div className="flex-[2_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
+              <div className="h-full p-4 rounded-lg bg-mywhite/6 backdrop-blur-sm border border-white/10">
+                <ContentCard heading="📍Local-Inspired Recommendations">
+                  Discover hidden gems, local favorites, and authentic
+                  experiences curated by AI trained on real traveler feedback
+                  and regional insights.
+                </ContentCard>
+              </div>
             </div>
           </div>
         </div>

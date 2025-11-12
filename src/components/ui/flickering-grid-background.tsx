@@ -14,9 +14,9 @@ interface FlickeringGridBackgroundProps
 }
 
 export function FlickeringGridBackground({
-  gridSize = 50,
-  flickerChance = 0.015,
-  flickerSpeed = 0.6,
+  gridSize = 20, // ⬅️ smaller grid (was 50) → closer cubes
+  flickerChance = 0.8, // ⬅️ higher flicker probability (was 0.015)
+  flickerSpeed = 0.8, // ⬅️ faster update interval (was 0.6)
   className,
   ...props
 }: FlickeringGridBackgroundProps) {
@@ -60,7 +60,7 @@ export function FlickeringGridBackground({
           if (Math.random() < flickerChance) grid[y][x] = Math.random();
           const brightness = val * 0.7 + 0.3;
           ctx.fillStyle = `rgba(${baseColor}, ${brightness * 0.45})`;
-          ctx.fillRect(x * gridSize, y * gridSize, 7, 7); // ⬅️ slightly bigger squares
+          ctx.fillRect(x * gridSize, y * gridSize, 8, 8); // ⬅️ slightly larger to reduce spacing
         }
       }
 

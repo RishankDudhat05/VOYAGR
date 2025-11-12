@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import TextField from "./input_field";
-// import Button from "./Button";
+import Button from "./Button";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function AuthForm() {
@@ -102,30 +102,44 @@ export default function AuthForm() {
     <div className="min-h-screen flex items-center justify-center px-6 py-10 font-nunito">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl h-full items-stretch">
         {/* LEFT PANEL */}
-        <div className="relative rounded-2xl overflow-hidden h-full">
-          <video
-            className="absolute inset-0 w-full h-full object-cover"
-            src="bg_video.mp4" // put your mp4 in public/assets or adjust path
-            autoPlay
-            muted
-            loop
-            playsInline
-          />
-          <div className="absolute inset-0 bg-myblack/50" aria-hidden="true" />
-          <div className="relative z-10 p-10 flex flex-col justify-center text-myred-100 h-full">
-            <h1 className="text-[5rem] text-mywhite leading-tight font-bold tracking-widest">
-              {isLogin ? (
-                <>
-                  L O G<br />
-                  <span className="font-thin">I N</span>
-                </>
-              ) : (
-                <>
-                  S I G N<br />
-                  <span className="font-thin">U P</span>
-                </>
-              )}
-            </h1>
+        <div className="relative h-full">
+          {/* Decorative gradient blob shadow behind the card */}
+          <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+            <div
+              className="w-[85%] h-[90%] rounded-[40%] bg-gradient-to-r from-myred/80 via-myred/40 to-transparent filter blur-2xl opacity-90 transform rotate-12 scale-105 drop-shadow-2xl"
+              style={{ mixBlendMode: "screen" }}
+              aria-hidden="true"
+            />
+          </div>
+
+          <div className="relative rounded-2xl overflow-hidden h-full shadow-myred/30 shadow-lg z-10">
+            <video
+              className="absolute inset-0 w-full h-full object-cover"
+              src="bg_video.mp4" // put your mp4 in public/assets or adjust path
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+            <div
+              className="absolute inset-0 bg-myblack/50"
+              aria-hidden="true"
+            />
+            <div className="relative z-10 p-10 flex flex-col justify-center text-myred-100 h-full">
+              <h1 className="text-[5rem] text-mywhite leading-tight font-bold tracking-widest">
+                {isLogin ? (
+                  <>
+                    L O G<br />
+                    <span className="font-thin">I N</span>
+                  </>
+                ) : (
+                  <>
+                    S I G N<br />
+                    <span className="font-thin">U P</span>
+                  </>
+                )}
+              </h1>
+            </div>
           </div>
         </div>
 
@@ -178,14 +192,14 @@ export default function AuthForm() {
 
             {/* BOTTOM BUTTONS */}
             <div className="flex items-center justify-between pt-4">
-              <div className="text-myred-700">
+              <div className="text-myred">
                 {isLogin
                   ? "Don't have an account?"
                   : "Already have an account?"}{" "}
                 <button
                   type="button"
                   onClick={() => setIsLogin(!isLogin)}
-                  className="font-semibold no-underline hover:text-blue-600"
+                  className="font-semibold underline hover:text-blue-600"
                 >
                   {isLogin ? "Sign Up" : "Log In"}
                 </button>
@@ -199,7 +213,7 @@ export default function AuthForm() {
                     setEmail("");
                     setPassword("");
                   }}
-                  className="px-6 py-2 rounded-full border border-myblack hover:bg-myred/100"
+                  className="px-6 py-2 rounded-full border border-myblack text-black dark:text-black hover:bg-myred/100"
                 >
                   Clear
                 </button>
