@@ -185,7 +185,7 @@ export default function AuthForm() {
                 <button
                   type="button"
                   onClick={() => setIsLogin(!isLogin)}
-                  className="font-semibold underline hover:text-blue-600"
+                  className="font-semibold no-underline hover:text-blue-600"
                 >
                   {isLogin ? "Sign Up" : "Log In"}
                 </button>

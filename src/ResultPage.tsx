@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 
 // Import custom components
 import BackButton from "./BackButton"; // Back button component
-import DayText from "./DayText";       // Component to display a single day's plan
+import DayText from "./DayText"; // Component to display a single day's plan
 import { getAIResponse } from "./api"; // Function to call AI API
-import Button from "./Button";         // Custom Button component
+import Button from "./Button"; // Custom Button component
 
 // CSS block to import Nunito font and define a custom font class
 const ResultStyle = `
@@ -20,8 +20,8 @@ const ResultStyle = `
 
 // TypeScript interface for a single day of the itinerary
 interface Day {
-  day: number;      // Day number
-  plan: string[];   // List of activities for that day
+  day: number; // Day number
+  plan: string[]; // List of activities for that day
 }
 
 // Main functional component for the result page
@@ -56,9 +56,9 @@ export default function ResultPage() {
 
     // Call the AI API with the prompt
     getAIResponse(prompt)
-      .then((obj) => setPayload(obj))                    // Store response in payload state
+      .then((obj) => setPayload(obj)) // Store response in payload state
       .catch((err) => setError(err.message || "Unknown error")) // Handle errors
-      .finally(() => setLoading(false));                // Stop loading regardless of success/failure
+      .finally(() => setLoading(false)); // Stop loading regardless of success/failure
   }, [state]);
 
   // Conditional rendering based on state
