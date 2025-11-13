@@ -1,13 +1,15 @@
 import React from "react";
 
 interface BackButtonProps {
-  logoSrc?: string;
+  lightLogo?: string;
+  darkLogo?: string;
   altText?: string;
 }
 
 const BackButton: React.FC<BackButtonProps> = ({
-  logoSrc = "logo.png",
-  altText = "Company logo at top left above the authentication form, set against a neutral background, conveying a welcoming and professional atmosphere",
+  lightLogo = "logo.png",
+  darkLogo = "logo_light.png",
+  altText = "Company logo",
 }) => (
   <button
     onClick={() => (window.location.href = "/")}
@@ -19,17 +21,30 @@ const BackButton: React.FC<BackButtonProps> = ({
     }}
     aria-label="Go back to main page"
   >
+    {/* Light mode logo */}
     <img
-      src={logoSrc}
+      src={lightLogo}
       alt={altText}
+      className="block dark:hidden"
       style={{
-        display: "block",
         margin: "24px 0 24px 24px",
         width: "120px",
         height: "auto",
         objectFit: "contain",
       }}
-      className="logo"
+    />
+
+    {/* Dark mode logo */}
+    <img
+      src={darkLogo}
+      alt={altText}
+      className="hidden dark:block"
+      style={{
+        margin: "24px 0 24px 24px",
+        width: "120px",
+        height: "auto",
+        objectFit: "contain",
+      }}
     />
   </button>
 );
