@@ -24,12 +24,16 @@ export default function ContentSection() {
         {/* main bento box layout */}
         <div className="flex flex-col w-full mr-4">
           <div className="flex flex-row flex-wrap m-0 p-0 w-full">
-            <div className="flex-[2_1_0%] h-72 m-2 p-0 border-2 rounded-lg shadow-sm relative overflow-hidden">
+            <div className="flex-[2_1_0%] h-72 m-2 p-0 border-2 rounded-lg shadow-sm relative overflow-hidden group transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
               <img
                 src="backdrop.png"
                 alt="LogoBackdrop"
-                className="absolute inset-0 w-full h-full object-cover object-center rounded-lg"
+                className="absolute inset-0 w-full h-full object-cover object-center rounded-lg transition-transform duration-500 group-hover:scale-110"
               />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 rounded-lg pointer-events-none" />
+              <div className="absolute bottom-3 left-3 z-10 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-sm">Preview</p>
+              </div>
             </div>
             <div className="flex-[3_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
               <TextField
