@@ -46,9 +46,7 @@ export default function ContentSection() {
             </div>
             <div className="flex-[1_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
               <ContentCard heading=" ✈️ Smart Personalized Trips">
-                Get custom travel itineraries based on your interests, budget,
-                and time. No templates — your trip feels uniquely yours, every
-                time.
+                random lines
               </ContentCard>
             </div>
           </div>
