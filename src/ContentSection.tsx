@@ -30,10 +30,7 @@ export default function ContentSection() {
                 alt="LogoBackdrop"
                 className="absolute inset-0 w-full h-full object-cover object-center rounded-lg transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 rounded-lg pointer-events-none" />
-              <div className="absolute bottom-3 left-3 z-10 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p className="text-sm">Preview</p>
-              </div>
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-myblack/30 transition-colors duration-200 rounded-lg pointer-events-none" />
             </div>
             <div className="flex-[3_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
               <TextField
