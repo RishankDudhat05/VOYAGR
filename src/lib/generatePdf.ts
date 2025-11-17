@@ -25,3 +25,53 @@ export async function generatePdfFromElement(
 
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    // If content fits on a single page
+  if (pdfHeight <= pdf.internal.pageSize.getHeight()) {
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  } else {
+    // Multi-page logic
+    let remainingHeight = canvas.height;
+    const pageHeightPx =
+      (canvas.width * pdf.internal.pageSize.getHeight()) / pdfWidth;
+
+    let position = 0;
+
+    while (remainingHeight > 0) {
+      const partCanvas = document.createElement("canvas");
+      partCanvas.width = canvas.width;
+      partCanvas.height = Math.min(pageHeightPx, remainingHeight);
+
+      const ctx = partCanvas.getContext("2d")!;
+      ctx.drawImage(
+        canvas,
+        0,
+        position,
+        canvas.width,
+        partCanvas.height,
+        0,
+        0,
+        partCanvas.width,
+        partCanvas.height
+      );
+
+      const partImg = partCanvas.toDataURL("image/png");
+      if (position !== 0) pdf.addPage();
+
+      pdf.addImage(
+        partImg,
+        "PNG",
+        0,
+        0,
+        pdfWidth,
+        pdf.internal.pageSize.getHeight()
+      );
+
+      position += partCanvas.height;
+      remainingHeight -= partCanvas.height;
+    }
+  }
+
+  pdf.save(fileName);
+}
+
