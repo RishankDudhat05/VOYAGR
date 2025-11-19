@@ -1,4 +1,7 @@
 from pydantic import BaseModel, EmailStr, Field
+from typing import List, Optional
+from datetime import datetime
+
 
 class UserCreate(BaseModel):
     name: str = Field(..., min_length=4, max_length=20)
@@ -26,3 +29,18 @@ class SendOtpRequest(BaseModel):
 class VerifyOtpRequest(BaseModel):
     email: EmailStr
     otp: str
+
+
+class SearchHistoryItem(BaseModel):
+    query: str
+    timestamp: datetime
+    response_type: Optional[str] = None
+
+class SearchHistoryResponse(BaseModel):
+    email_id: str
+    search_history: List[SearchHistoryItem]
+
+class RecommendationResponse(BaseModel):
+    recommendations: List[dict]
+    based_on_searches: List[str]
+    summary: str
