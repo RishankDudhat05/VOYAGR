@@ -83,3 +83,27 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
 @router.get("/me", response_model=UserResponse)
 async def read_me(current_user: UserResponse = Depends(get_current_user)):
     return current_user
+
+@router.post("/send-otp")
+async def send_otp_endpoint(body: SendOtpRequest):
+    otp = generate_otp()
+    save_otp(body.email, otp, ttl_seconds=300)  # 5 minutes
+
+    try:
+        send_otp_email(body.email, otp)
+    except Exception as e:
+        print("Error sending OTP email:", e)
+        raise HTTPException(status_code=500, detail="Could not send OTP email")
+
+    return {"message": "OTP sent successfully"}
+
+
+@router.post("/verify-otp")
+async def verify_otp_endpoint(body: VerifyOtpRequest):
+    ok = check_otp(body.email, body.otp)
+    if not ok:
+        raise HTTPException(status_code=400, detail="Invalid or expired OTP")
+
+    # here you can also update DB that this email is verified
+    return {"message": "OTP verified"}
+
