@@ -19,8 +19,8 @@ export default function ContentSection() {
   return (
     <>
       <style>{HeroStyle}</style>
-      <div className="flex flex-col m-8 mb-32 p-2 justify-center items-center font-nunito">
-        <p className="m-2 p-4 font-semibold text-3xl">Features</p>
+      <div className="flex flex-col m-8 mb-32 p-2 justify-center items-start font-nunito">
+        <p className="m-2 p-4 font-extralight text-9xl">Features</p>
         {/* main bento box layout */}
         <div className="flex flex-col w-full mr-4">
           <div className="flex flex-row flex-wrap m-0 p-0 w-full">
@@ -34,18 +34,22 @@ export default function ContentSection() {
             </div>
             <div className="flex-[3_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
               <TextField
-                label="Write your testimonial!"
+                label={
+                  <span className="text-mywhite dark:text-myblack">
+                    Write your testimonial!
+                  </span>
+                }
                 type="text"
                 placeholder="Write your review here..."
                 defaultValue="hi there"
-                className={`w-full text-myred p-4 rounded-lg shadow-sm transition-colors duration-150
-              bg-myred/90 placeholder:text-gray-400 border border-gray-700
-              focus:outline-none focus:ring-2 focus:ring-mywhite/20
-              dark:bg-myred/90 dark:text-myblack dark:placeholder:text-gray-500 dark:border-gray-200 dark:focus:ring-myblack/20`}
+                className={`w-full text-myblack p-4 rounded-lg shadow-sm transition-colors duration-150
+    bg-myred/90 placeholder:text-myblack dark:placeholder:text-mywhite border border-gray-700
+    focus:outline-none focus:ring-2 focus:ring-mywhite/20
+    dark:bg-myred/90 dark:text-mywhite dark:placeholder:text-mywhite dark:border-gray-200 dark:focus:ring-myblack/20`}
               />
             </div>
             <div className="flex-[1_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
-              <ContentCard heading=" ✈️ Smart Personalized Trips">
+              <ContentCard heading=" ✈ Smart Personalized Trips">
                 Get custom travel itineraries based on your interests, budget,
                 and time. No templates — your trip feels uniquely yours, every
                 time.
