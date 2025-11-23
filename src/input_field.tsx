@@ -1,10 +1,11 @@
+// input_field.tsx
 import { useState, useRef } from "react";
 import type { ChangeEvent } from "react";
 
 import Button from "./Button";
 
 interface TextFieldProps {
-  label: string;
+  label?: string;
   type?: "text" | "email" | "number" | "password";
   placeholder?: string;
   value?: string;
@@ -14,11 +15,12 @@ interface TextFieldProps {
   ) => void;
   /** render a multiline textarea that auto-resizes within its parent */
   multiline?: boolean;
-  className?: string;
+  className?: string; // wrapper class
+  inputClassName?: string; // class applied to the real input/textarea
 }
 
 export default function TextField({
-  label,
+  label = "",
   type = "text",
   placeholder = "Enter the specified detail",
   value,
@@ -28,6 +30,7 @@ export default function TextField({
   ) => void,
   multiline = false,
   className = "",
+  inputClassName = "",
 }: TextFieldProps) {
   // state to manage password visibility
   const [showPassword, setShowPassword] = useState(false);
@@ -36,11 +39,21 @@ export default function TextField({
 
   const inputType = type === "password" && showPassword ? "text" : type;
 
+  // base classes for input/textarea — we keep these but allow overrides via inputClassName
+  const baseInputClasses =
+    "flex-1 px-4 py-2 rounded-full font-nunito text-base bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-800 dark:focus:ring-gray-300 hover:border-gray-500 dark:hover:border-gray-500 transition w-full";
+
+  const baseTextareaClasses =
+    "flex-1 px-4 py-2 rounded-lg font-nunito text-base bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-800 dark:focus:ring-gray-300 hover:border-gray-500 dark:hover:border-gray-500 transition w-full max-h-full overflow-auto";
+
   return (
     <div className={`flex flex-col gap-1 m-2 p-2 w-full ${className}`}>
-      <label className="font-nunito text-lg text-gray-700 transition-all">
-        {label}
-      </label>
+      {label && (
+        <label className="font-nunito text-lg text-gray-700 dark:text-gray-300 transition-all">
+          {label}
+        </label>
+      )}
+
       <div className="flex flex-row gap-2 items-center w-full">
         {multiline ? (
           <textarea
@@ -63,7 +76,7 @@ export default function TextField({
               if (maxH) el.style.height = Math.min(newH, maxH) + "px";
               else el.style.height = newH + "px";
             }}
-            className="flex-1 px-4 py-2 rounded-lg font-nunito text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-800 dark:focus:ring-gray-300 hover:border-gray-500 dark:hover:border-gray-500 transition w-full max-h-full overflow-auto"
+            className={`${baseTextareaClasses} ${inputClassName}`}
           />
         ) : (
           <input
@@ -75,12 +88,7 @@ export default function TextField({
               ? { defaultValue }
               : {})}
             onChange={onChange as (e: ChangeEvent<HTMLInputElement>) => void}
-            className="flex-1 px-4 py-2 rounded-full font-nunito text-base
-         bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100
-         placeholder-gray-500 dark:placeholder-gray-400
-         border border-gray-300 dark:border-gray-700
-         focus:outline-none focus:ring-1 focus:ring-gray-800 dark:focus:ring-gray-300
-         hover:border-gray-500 dark:hover:border-gray-500 transition w-full"
+            className={`${baseInputClasses} ${inputClassName}`}
           />
         )}
 
