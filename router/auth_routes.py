@@ -3,8 +3,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 
 from database import users_collection
-from schemas import UserCreate, UserResponse, Token
-from auth import hash_password, verify_password, create_access_token
+from schemas import UserCreate, UserResponse, Token, SendOtpRequest, VerifyOtpRequest
+from auth import hash_password, verify_password, create_access_token, generate_otp, save_otp, check_otp, send_otp_email
 from config import SECRET_KEY, ALGORITHM
 
 router = APIRouter(
