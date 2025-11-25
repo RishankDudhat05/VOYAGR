@@ -1,7 +1,14 @@
-// src/api.ts
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 export async function getAIResponse(prompt: string): Promise<any> {
+  const token = localStorage.getItem("access_token"); 
   const res = await fetch(
-    `http://localhost:8000/travel/generate?prompt=${encodeURIComponent(prompt)}`
+    `${backendUrl}/travel/generate?prompt=${encodeURIComponent(prompt)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
 
   if (!res.ok) {
