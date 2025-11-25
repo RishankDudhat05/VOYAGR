@@ -218,87 +218,87 @@ export default function ManualPlannerForm() {
  *   import MiniPlaceCard from "./MiniPlaceCard";
  * and then use <MiniPlaceCard ... /> directly in the map() above.
  */
-function MiniPlaceCardAdapter(props: { id: string; title: string; rating?: number; reviews?: number; onAdd?: (id: string) => void; }) {
-  // If you imported MiniPlaceCard at top, replace the returned markup with:
-  // return <MiniPlaceCard {...props} />
-  // For now we render a small inline card matching the MiniPlaceCard API (no image).
-  const { id, title, rating = 4.4, reviews = 1000, onAdd } = props;
-  const isDark = (() => {
-    const html = document.documentElement;
-    if (html.dataset.theme === "dark") return true;
-    if (html.dataset.theme === "light") return false;
-    if (html.classList.contains("dark")) return true;
-    return window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false;
-  })();
+// function MiniPlaceCardAdapter(props: { id: string; title: string; rating?: number; reviews?: number; onAdd?: (id: string) => void; }) {
+//   // If you imported MiniPlaceCard at top, replace the returned markup with:
+//   // return <MiniPlaceCard {...props} />
+//   // For now we render a small inline card matching the MiniPlaceCard API (no image).
+//   const { id, title, rating = 4.4, reviews = 1000, onAdd } = props;
+//   const isDark = (() => {
+//     const html = document.documentElement;
+//     if (html.dataset.theme === "dark") return true;
+//     if (html.dataset.theme === "light") return false;
+//     if (html.classList.contains("dark")) return true;
+//     return window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false;
+//   })();
 
-  const surfaceBg = isDark ? "#0b1216" : "#ffffff";
-  const borderColor = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.12)";
-  const titleColor = isDark ? "#e6eef6" : "#0b1220";
-  const metaColor = isDark ? "#9aa7b4" : "#6b7280";
-  const ratingBg = isDark ? "rgba(255,255,255,0.05)" : "rgba(15,23,42,0.08)";
+//   const surfaceBg = isDark ? "#0b1216" : "#ffffff";
+//   const borderColor = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.12)";
+//   const titleColor = isDark ? "#e6eef6" : "#0b1220";
+//   const metaColor = isDark ? "#9aa7b4" : "#6b7280";
+//   const ratingBg = isDark ? "rgba(255,255,255,0.05)" : "rgba(15,23,42,0.08)";
 
-  const cardStyle: React.CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    padding: "10px 14px",
-    borderRadius: 12,
-    background: surfaceBg,
-    border: `1px solid ${borderColor}`,
-    minWidth: 240,
-    boxSizing: "border-box",
-  };
+//   const cardStyle: React.CSSProperties = {
+//     display: "flex",
+//     alignItems: "center",
+//     gap: 12,
+//     padding: "10px 14px",
+//     borderRadius: 12,
+//     background: surfaceBg,
+//     border: 1px solid ${borderColor},
+//     minWidth: 240,
+//     boxSizing: "border-box",
+//   };
 
-  const titleStyle: React.CSSProperties = {
-    margin: 0,
-    fontSize: 14,
-    color: titleColor,
-    fontWeight: 700,
-  };
+//   const titleStyle: React.CSSProperties = {
+//     margin: 0,
+//     fontSize: 14,
+//     color: titleColor,
+//     fontWeight: 700,
+//   };
 
-  const ratingStyle: React.CSSProperties = {
-    background: ratingBg,
-    border: `1px solid ${borderColor}`,
-    padding: "3px 8px",
-    borderRadius: 6,
-    fontSize: 12,
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 4,
-    color: titleColor,
-  };
+//   const ratingStyle: React.CSSProperties = {
+//     background: ratingBg,
+//     border: 1px solid ${borderColor},
+//     padding: "3px 8px",
+//     borderRadius: 6,
+//     fontSize: 12,
+//     display: "inline-flex",
+//     alignItems: "center",
+//     gap: 4,
+//     color: titleColor,
+//   };
 
-  const addBtnStyle: React.CSSProperties = {
-    marginLeft: "auto",
-    width: 30,
-    height: 30,
-    borderRadius: 999,
-    border: `1px solid ${borderColor}`,
-    background: "transparent",
-    color: titleColor,
-    cursor: "pointer",
-    fontSize: 18,
-    fontWeight: 600,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
+//   const addBtnStyle: React.CSSProperties = {
+//     marginLeft: "auto",
+//     width: 30,
+//     height: 30,
+//     borderRadius: 999,
+//     border: 1px solid ${borderColor},
+//     background: "transparent",
+//     color: titleColor,
+//     cursor: "pointer",
+//     fontSize: 18,
+//     fontWeight: 600,
+//     display: "flex",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   };
 
-  return (
-    <div style={cardStyle} role="group" aria-label={`mini-${id}`}>
-      <div style={{ minWidth: 0 }}>
-        <p style={titleStyle}>{title}</p>
+//   return (
+//     <div style={cardStyle} role="group" aria-label={mini-${id}}>
+//       <div style={{ minWidth: 0 }}>
+//         <p style={titleStyle}>{title}</p>
 
-        <div style={{ marginTop: 4, display: "flex", gap: 6, alignItems: "center" }}>
-          <div style={ratingStyle}>
-            ⭐ {rating.toFixed(1)} <span style={{ color: metaColor }}>({reviews.toLocaleString()})</span>
-          </div>
-        </div>
-      </div>
+//         <div style={{ marginTop: 4, display: "flex", gap: 6, alignItems: "center" }}>
+//           <div style={ratingStyle}>
+//             ⭐ {rating.toFixed(1)} <span style={{ color: metaColor }}>({reviews.toLocaleString()})</span>
+//           </div>
+//         </div>
+//       </div>
 
-      <button style={addBtnStyle} onClick={() => onAdd?.(id)} aria-label={`Add ${title}`}>
-        +
-      </button>
-    </div>
-  );
-}
+//       <button style={addBtnStyle} onClick={() => onAdd?.(id)} aria-label={Add ${title}}>
+//         +
+//       </button>
+//     </div>
+//   );
+// }
