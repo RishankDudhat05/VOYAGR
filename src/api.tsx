@@ -43,3 +43,51 @@ export async function getAIResponse(prompt: string): Promise<any> {
     };
   }
 }
+
+export async function sendOtp(email: string) {
+  const res = await fetch(`${backendUrl}/auth/send-otp`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!res.ok) {
+    let msg = "Failed to send OTP";
+    try {
+      const data = await res.json();
+      msg = data.detail || msg;
+    } catch {}
+    throw new Error(msg);
+  }
+}
+
+export async function verifyOtp(email: string, otp: string) {
+  const res = await fetch(`${backendUrl}/auth/verify-otp`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, otp }),
+  });
+
+  if (!res.ok) {
+    let msg = "Invalid or expired OTP";
+    try {
+      const data = await res.json();
+      msg = data.detail || msg;
+    } catch {}
+    throw new Error(msg);
+  }
+}
+
+
+export async function logoutRequest() {
+  const token = localStorage.getItem("access_token");
+
+  const res = await fetch("http://localhost:8000/auth/logout", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.json();
+}
