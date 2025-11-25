@@ -1,5 +1,3 @@
-
-
 export type PlaceCardProps = {
   id: string;
   name: string;
@@ -123,7 +121,7 @@ export default function PlaceCard({
                 className="
                   rounded-md px-3 py-2 text-sm font-semibold
                   bg-red-50 border border-red-200 text-red-700
-                  dark:bg_white/10 dark:border-white/20 dark:text-blue-200
+                  dark:bg-white/10 dark:border-white/20 dark:text-blue-200
                 "
               >
                 ↓
@@ -150,4 +148,3 @@ export default function PlaceCard({
     </div>
   );
 }
-
