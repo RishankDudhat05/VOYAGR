@@ -31,17 +31,17 @@ function ContentCard({ heading, children }: ContentCardProps) {
   );
 }
 
-function ArrowUp(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" {...props}>
-      <path
-        fillRule="evenodd"
-        d="M3.293 9.293a1 1 0 011.414 0L9 13.586V3a1 1 0 112 0v10.586l4.293-4.293a1 1 0 011.414 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
+// function ArrowUp(props: React.SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" {...props}>
+//       <path
+//         fillRule="evenodd"
+//         d="M3.293 9.293a1 1 0 011.414 0L9 13.586V3a1 1 0 112 0v10.586l4.293-4.293a1 1 0 011.414 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414z"
+//         clipRule="evenodd"
+//       />
+//     </svg>
+//   );
+// }
 
 const scrollToTop = () => {
   if (typeof window !== "undefined") {
@@ -338,3 +338,4 @@ export default function PromptForm() {
     </>
   );
 }
+
