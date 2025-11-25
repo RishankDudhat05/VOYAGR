@@ -245,7 +245,7 @@ export default function PromptForm() {
                 </div>
                 <div className="flex-[3_1_0%] h-72 m-2 p-0 border-0 rounded-lg shadow-sm">
                   <TextField
-                  label={<span className="text-mywhite dark:text-myblack">Write your testimonial!</span>}
+                  label="Write your testimonial!"
                   type="text"
                   placeholder="Write your review here..."
                   defaultValue="hi there"
@@ -338,4 +338,5 @@ export default function PromptForm() {
     </>
   );
 }
+
 
