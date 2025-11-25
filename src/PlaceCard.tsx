@@ -12,6 +12,11 @@ export type PlaceCardProps = {
   timeLabel?: string;
   daysLabel?: string;
   forceBlack?: boolean;
+
+  // NEW: actions for itinerary editing
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
+  onDelete?: () => void;
 };
 
 export default function PlaceCard({
@@ -26,6 +31,9 @@ export default function PlaceCard({
   timeLabel,
   daysLabel,
   forceBlack = false,
+  onMoveUp,
+  onMoveDown,
+  onDelete,
 }: PlaceCardProps) {
   const forceClass = forceBlack ? "bg-myblack text-white" : "";
 
@@ -45,9 +53,7 @@ export default function PlaceCard({
           <h3 className="m-0 text-[20px] font-bold">{name}</h3>
 
           {location && (
-            <div className="mt-1 text-[13px] opacity-70">
-              {location}
-            </div>
+            <div className="mt-1 text-[13px] opacity-70">{location}</div>
           )}
 
           {tags.length > 0 && (
@@ -93,31 +99,54 @@ export default function PlaceCard({
         {timeLabel && <div>⏰ {timeLabel}</div>}
         {daysLabel && <div>📅 {daysLabel}</div>}
 
-        <div className="ml-auto flex gap-3">
-          {/* Move button – NO onClick */}
-          <button
-            type="button"
-            className="
-              rounded-md px-3 py-2 text-sm font-semibold
-              bg-red-50 border border-red-200 text-red-700
-              dark:bg-white/10 dark:border-white/20 dark:text-blue-200
-            "
-          >
-            Move
-          </button>
+        {(onMoveUp || onMoveDown || onDelete) && (
+          <div className="ml-auto flex gap-3">
+            {/* Up button */}
+            {onMoveUp && (
+              <button
+                type="button"
+                onClick={onMoveUp}
+                className="
+                  rounded-md px-3 py-2 text-sm font-semibold
+                  bg-red-50 border border-red-200 text-red-700
+                  dark:bg-white/10 dark:border-white/20 dark:text-blue-200
+                "
+              >
+                ↑
+              </button>
+            )}
 
-          {/* Delete button – NO onClick */}
-          <button
-            type="button"
-            className="
-              rounded-md px-3 py-2 text-sm font-semibold
-              bg-red-100 border border-red-300 text-red-900
-              dark:bg-red-900/30 dark:border-red-900/50 dark:text-red-200
-            "
-          >
-            Delete
-          </button>
-        </div>
+            {/* Down button */}
+            {onMoveDown && (
+              <button
+                type="button"
+                onClick={onMoveDown}
+                className="
+                  rounded-md px-3 py-2 text-sm font-semibold
+                  bg-red-50 border border-red-200 text-red-700
+                  dark:bg_white/10 dark:border-white/20 dark:text-blue-200
+                "
+              >
+                ↓
+              </button>
+            )}
+
+            {/* Delete button */}
+            {onDelete && (
+              <button
+                type="button"
+                onClick={onDelete}
+                className="
+                  rounded-md px-3 py-2 text-sm font-semibold
+                  bg-red-100 border border-red-300 text-red-900
+                  dark:bg-red-900/30 dark:border-red-900/50 dark:text-red-200
+                "
+              >
+                Delete
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
