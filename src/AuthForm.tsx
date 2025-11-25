@@ -19,7 +19,7 @@ export default function AuthForm() {
   const [errorMsg, setErrorMsg] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const backendUrl = "http://localhost:8000";
+ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // -------------------------------
   // OTP states
@@ -366,5 +366,6 @@ export default function AuthForm() {
     </div>
   );
 }
+
 
 
