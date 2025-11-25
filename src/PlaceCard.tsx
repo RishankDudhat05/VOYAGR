@@ -1,4 +1,4 @@
-import React from "react";
+
 
 export type PlaceCardProps = {
   id: string;
@@ -20,7 +20,6 @@ export type PlaceCardProps = {
 };
 
 export default function PlaceCard({
-  id,
   name,
   location,
   tags = [],
@@ -151,3 +150,4 @@ export default function PlaceCard({
     </div>
   );
 }
+
