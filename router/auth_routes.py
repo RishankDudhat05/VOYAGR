@@ -107,3 +107,58 @@ async def verify_otp_endpoint(body: VerifyOtpRequest):
     # here you can also update DB that this email is verified
     return {"message": "OTP verified"}
 
+
+@router.delete("/delete-account")
+async def delete_account(current_user: UserResponse = Depends(get_current_user)):
+    result = await users_collection.delete_one({"email_id": current_user.email_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {"message": "Account deleted successfully"}
+
+
+@router.post("/submit-review")
+async def submit_review(
+    review: dict,
+    current_user: UserResponse = Depends(get_current_user)
+):
+    from datetime import datetime
+    
+    review_text = review.get("review", "").strip()
+    if not review_text:
+        raise HTTPException(status_code=400, detail="Review cannot be empty")
+    
+    review_doc = {
+        "review": review_text,
+        "submitted_at": datetime.now(),
+        "user_name": current_user.name
+    }
+    
+    await users_collection.update_one(
+        {"email_id": current_user.email_id},
+        {"$push": {"reviews": review_doc}}
+    )
+    
+    return {"message": "Review submitted successfully"}
+
+
+@router.get("/reviews")
+async def get_reviews():
+    """Get up to 3 recent reviews from all users (public endpoint)"""
+    pipeline = [
+        {"$match": {"reviews": {"$exists": True, "$ne": []}}},
+        {"$unwind": "$reviews"},
+        {"$sort": {"reviews.submitted_at": -1}},
+        {"$limit": 3},
+        {"$project": {
+            "_id": 0,
+            "review": "$reviews.review",
+            "user_name": "$reviews.user_name",
+            "submitted_at": "$reviews.submitted_at"
+        }}
+    ]
+    
+    reviews = []
+    async for doc in users_collection.aggregate(pipeline):
+        reviews.append(doc)
+    
+    return {"reviews": reviews}
