@@ -19,7 +19,8 @@ export default function AuthForm() {
   const [errorMsg, setErrorMsg] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
- const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 
   // -------------------------------
   // OTP states
@@ -45,8 +46,7 @@ export default function AuthForm() {
       return "Password must be 6-20 characters";
     if (!/[A-Z]/.test(pwd))
       return "Password must contain at least one uppercase letter";
-    if (!/[0-9]/.test(pwd))
-      return "Password must contain at least one number";
+    if (!/[0-9]/.test(pwd)) return "Password must contain at least one number";
     return "";
   };
 
@@ -210,7 +210,7 @@ export default function AuthForm() {
         </div>
 
         {/* RIGHT PANEL */}
-        <div className="bg-mywhite backdrop-blur-xl border-2 border-myblack/40 shadow-md rounded-3xl p-10 h-full flex items-center">
+        <div className="bg-mywhite dark:bg-myblack backdrop-blur-xl border-2 border-myblack/40 shadow-md rounded-3xl p-10 h-full flex items-center">
           <form onSubmit={handleSubmit} className="space-y-6 w-full">
             {!isLogin && (
               <TextField
@@ -240,7 +240,11 @@ export default function AuthForm() {
                     disabled={sendingOtp || !email}
                     className="px-3 py-1 rounded bg-myblack text-white text-sm"
                   >
-                    {sendingOtp ? "Sending..." : otpSent ? "Resend OTP" : "Send OTP"}
+                    {sendingOtp
+                      ? "Sending..."
+                      : otpSent
+                      ? "Resend OTP"
+                      : "Send OTP"}
                   </button>
 
                   {otpSent && (
@@ -256,7 +260,7 @@ export default function AuthForm() {
                         value={otp}
                         onChange={(e) => setOtp(e.target.value)}
                         placeholder="Enter OTP"
-                        className="w-full border px-3 py-2 rounded"
+                        className="w-full border px-3 py-2 rounded text-black placeholder:text-black"
                       />
 
                       <button
@@ -287,14 +291,15 @@ export default function AuthForm() {
             <TextField
               label={isLogin ? "Password" : "New Password"}
               type="password"
-              placeholder={isLogin ? "Enter your password" : "Enter your new password"}
+              placeholder={
+                isLogin ? "Enter your password" : "Enter your new password"
+              }
               value={password}
               onChange={(e) => {
-              setPassword(e.target.value);
-              setPasswordError(validatePassword(e.target.value));
+                setPassword(e.target.value);
+                setPasswordError(validatePassword(e.target.value));
               }}
             />
-
 
             {!isLogin && (
               <TextField
@@ -347,14 +352,13 @@ export default function AuthForm() {
                     setOtpVerified(false);
                     setOtpError("");
                   }}
-                  className="px-6 py-2 rounded-full border border-myblack text-black hover:bg-myred/100"
+                  className="px-6 py-2 rounded-full border border-myblack bg-mywhite dark:bg-myblack hover:text-mywhite dark:text-mywhite dark:hover:bg-myred/80 dark:border-mywhite text-black hover:bg-myred/100"
                 >
                   Clear
                 </button>
-
                 <button
                   type="submit"
-                  className="px-8 py-2 rounded-full bg-myblack text-mywhite hover:bg-myred/900"
+                  className="px-8 py-2 rounded-full bg-myblack dark:bg-mywhite text-mywhite dark:text-myblack hover:bg-myblack/80 dark:hover:bg-mywhite/80"
                 >
                   Submit
                 </button>
@@ -366,6 +370,3 @@ export default function AuthForm() {
     </div>
   );
 }
-
-
-
