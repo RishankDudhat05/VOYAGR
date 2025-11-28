@@ -44,3 +44,10 @@ class RecommendationResponse(BaseModel):
     recommendations: List[dict]
     based_on_searches: List[str]
     summary: str
+
+
+class LocationRecommendationRequest(BaseModel):
+    place_name: str
+    location: str
+    exclude: List[str] = []
+    top_k: int = 5
