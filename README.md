@@ -1,22 +1,18 @@
-<img width="1025" height="273" alt="voyagr_logo_w" src="https://github.com/user-attachments/assets/adb47fee-e716-4314-a4fe-dc0be420a0aa" />
-
-# 🌐 VOYAGR Frontend
- 
-*AI-powered travel assistant UI for itinerary planning and place discovery.*
+<img width="257" height="68" alt="voyagr_logo_ws" src="https://github.com/user-attachments/assets/f5bd62ca-105a-42c0-b1a5-e8e0d0552366" />
 
 ## Overview
 
-This project provides an interactive interface for travelers to plan trips and discover places using AI. Users can:  
+This frontend project VOYAGR - AI Powered Itinerary Planner provides an interactive interface for travelers to plan trips and discover places using AI. Users can:  
 - Create personalized travel itineraries.  
-- Search for attractions, restaurants, shopping spots, and hidden gems.  
-- Interact with a clean and modern UI built with **React.js** and **Tailwind CSS**.  
+- Search for attractions, restaurants, shopping spots, and hidden gems around the world.  
+- Interact with a clean and modern UI built with **React.js**, **Vite**, **TypeScript** and **Tailwind CSS**.  
 
 ---
 
 ## Features
 
 ### AI-Enabled Itinerary Planner
-- Enter your travel prompt and get a complete suggested itinerary.  
+- Enter your travel prompt and get a complete suggested itinerary (current strategy, further to be upgraded).  
 - Daily schedules with optimized routes, top attractions, and recommended activities.  
 
 ### Smart Places Searcher
@@ -24,13 +20,9 @@ This project provides an interactive interface for travelers to plan trips and d
 - Receive curated suggestions for attractions, dining, shopping, and hidden gems.  
 
 ### Additional Features
-- Clean input components with user friendliness and clear functionality.  
+- Responsive design for desktop.  
+- Clean input components with password toggle and clear functionality.  
 - Interactive buttons and cards for smooth user experience.  
-
----
-
-## Screenshots
-
 
 ---
 
@@ -52,5 +44,12 @@ This project provides an interactive interface for travelers to plan trips and d
 ### Installation
 ```bash
 git clone https://github.com/yourusername/travel-ai-frontend.git
-cd travel-ai-frontend
+cd voyagr-frontend (navigate to frontend folder)
 npm install
+```
+
+### Running on Web
+```bash
+npm run dev
+```
+Then, follow the link ahead
