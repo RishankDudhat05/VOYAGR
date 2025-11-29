@@ -80,3 +80,45 @@ Focus on diverse categories (historical, nature, food, cultural, adventure) to g
 
 location_parser = JsonOutputParser()
 location_recommendation_chain = location_recommendation_prompt | llm | location_parser
+
+
+@router.post("/location-recommendations")
+async def get_location_recommendations(
+    request: LocationRecommendationRequest = Body(...),
+    current_user: UserResponse = Depends(get_current_user)
+):
+    try:
+        exclude_text = "\n".join([f"- {place}" for place in request.exclude]) if request.exclude else "None"
+        
+        print(f"Generating location recommendations for: {request.place_name} in {request.location}")
+        
+        result = await location_recommendation_chain.ainvoke({
+            "place_name": request.place_name,
+            "location": request.location,
+            "exclude_list": exclude_text,
+            "top_k": str(request.top_k),
+        })
+        
+        if not isinstance(result, dict):
+            print(f"Warning: LLM returned non-dict: {type(result)}")
+            result = {"recommendations": [], "summary": "Invalid response format"}
+        
+        return result
+    
+    except OutputParserException as e:
+        print(f"OutputParserException: {str(e)}")
+        return {
+            "recommendations": [],
+            "summary": "Unable to parse AI recommendations. Please try again.",
+            "error": str(e)
+        }
+    
+    except Exception as e:
+        print(f"Error in location recommendations: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error generating recommendations: {str(e)}"
+        )
+
