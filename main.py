@@ -19,7 +19,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://voyagrg13.vercel.app"
+        "https://voyagrg13.vercel.app",
+        "https://voyagrg13-two.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
