@@ -5,8 +5,8 @@ import type { ChangeEvent } from "react";
 import Button from "./Button";
 
 interface TextFieldProps {
-  label?: string;
-  type?: "text" | "email" | "number" | "password";
+  label?: React.ReactNode;
+  type?: "text" | "email" | "number" | "password" | "date";
   placeholder?: string;
   value?: string;
   defaultValue?: string;

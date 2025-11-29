@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import TextField from "./input_field";
+import Button from "./Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { sendOtp, verifyOtp } from "./api"; // ← ADD THIS
 
@@ -19,8 +20,7 @@ export default function AuthForm() {
   const [errorMsg, setErrorMsg] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const backendUrl =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 
   // -------------------------------
   // OTP states
@@ -46,7 +46,8 @@ export default function AuthForm() {
       return "Password must be 6-20 characters";
     if (!/[A-Z]/.test(pwd))
       return "Password must contain at least one uppercase letter";
-    if (!/[0-9]/.test(pwd)) return "Password must contain at least one number";
+    if (!/[0-9]/.test(pwd))
+      return "Password must contain at least one number";
     return "";
   };
 
@@ -240,11 +241,7 @@ export default function AuthForm() {
                     disabled={sendingOtp || !email}
                     className="px-3 py-1 rounded bg-myblack text-white text-sm"
                   >
-                    {sendingOtp
-                      ? "Sending..."
-                      : otpSent
-                      ? "Resend OTP"
-                      : "Send OTP"}
+                    {sendingOtp ? "Sending..." : otpSent ? "Resend OTP" : "Send OTP"}
                   </button>
 
                   {otpSent && (
@@ -291,15 +288,14 @@ export default function AuthForm() {
             <TextField
               label={isLogin ? "Password" : "New Password"}
               type="password"
-              placeholder={
-                isLogin ? "Enter your password" : "Enter your new password"
-              }
+              placeholder={isLogin ? "Enter your password" : "Enter your new password"}
               value={password}
               onChange={(e) => {
-                setPassword(e.target.value);
-                setPasswordError(validatePassword(e.target.value));
+              setPassword(e.target.value);
+              setPasswordError(validatePassword(e.target.value));
               }}
             />
+
 
             {!isLogin && (
               <TextField

@@ -39,14 +39,16 @@ export default function HeroSection() {
 
           {/* Light and dark logos */}
           <img
-            className="m-2 mt-4 max-w-lg max-h-lg select-none block dark:hidden"
+            className="m-2 mt-4 max-w-lg max-h-lg select-none block dark:hidden cursor-pointer"
             src="logo.png"
             alt="logo (light)"
+            onClick={() => navigate("/prompt")}
           />
           <img
-            className="m-2 mt-4 max-w-lg max-h-lg select-none hidden dark:block"
+            className="m-2 mt-4 max-w-lg max-h-lg select-none hidden dark:block cursor-pointer"
             src="logo_light.png"
             alt="logo (dark)"
+            onClick={() => navigate("/prompt")}
           />
 
           {/* Typewriter text */}

@@ -4,12 +4,13 @@ import { useEffect, useState, useRef } from "react";
 
 import BackButton from "./BackButton";
 import DayText from "./DayText"; // fallback when only "plan" text exists
-import { getAIResponse } from "./api";
+import { getAIResponse, getUserProfile } from "./api";
 import Button from "./Button";
 import PlaceCard from "./PlaceCard"; // timeline / place cards
 
 
-import { generatePdfFromElement } from "./lib/generatePdf";
+import { generatePdfFromItinerary } from "./lib/generatePdf";
+import ThemeToggle from "./components/theme-toggle";
 
 
 
@@ -28,6 +29,7 @@ interface Place {
   description?: string;
   priceLabel?: string;
   timeLabel?: string;
+  mapUrl?: string; // Google Maps link
 }
 
 interface APIDay {
@@ -45,11 +47,31 @@ interface UIDay {
   planText?: string;
 }
 
+// Helper to build a Google Maps URL if backend didn't send one
+function buildMapUrl(name?: string, location?: string): string | undefined {
+  if (!name) return undefined;
+  const query = `${name} ${location ?? ""}`.trim();
+  if (!query) return undefined;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
 export default function ResultPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const state = location.state as { prompt?: string } | undefined;
+  const [username, setUsername] = useState("User");
+
+  useEffect(() => {
+    getUserProfile()
+      .then((user) => {
+        if (user && user.name) {
+          setUsername(user.name);
+        }
+      })
+      .catch((err) => console.error("Failed to load user profile", err));
+  }, []);
+
+  const state = location.state as { prompt?: string; manualItinerary?: any } | undefined;
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -66,7 +88,7 @@ export default function ResultPage() {
  
 
   // ---------- DARK / LIGHT THEME TOGGLE ----------
-  const [isDark, setIsDark] = useState<boolean>(() => {
+  const [isDark] = useState<boolean>(() => {
     if (typeof window !== "undefined" && window.matchMedia) {
       return window.matchMedia("(prefers-color-scheme: dark)").matches;
     }
@@ -81,12 +103,18 @@ export default function ResultPage() {
     }
   }, [isDark]);
 
-  const handleToggleTheme = () => {
-    setIsDark((prev) => !prev);
-  };
+  // const handleToggleTheme = () => {
+  //   setIsDark((prev) => !prev);
+  // };
 
-  // ---------- FETCH FROM BACKEND ----------
+  // ---------- FETCH FROM BACKEND OR USE MANUAL ITINERARY ----------
   useEffect(() => {
+    // Check if this is a manual itinerary
+    if (state?.manualItinerary) {
+      setPayload(state.manualItinerary);
+      return;
+    }
+
     const prompt = state?.prompt;
 
     if (!prompt) {
@@ -124,17 +152,22 @@ export default function ResultPage() {
 
       // If backend already gives detailed places
       if (Array.isArray(d.places) && d.places.length > 0) {
-        places = d.places.map((p: any, idx: number) => ({
-          id: p.id?.toString() ?? `${dayNumber}-${idx}`,
-          name: p.name ?? `Place ${idx + 1}`,
-          location: p.location,
-          tags: p.tags,
-          rating: p.rating,
-          reviews: p.reviews,
-          description: p.description ?? p.details ?? "",
-          priceLabel: p.priceLabel ?? p.price ?? "",
-          timeLabel: p.timeLabel ?? p.duration ?? "",
-        }));
+        places = d.places.map((p: any, idx: number) => {
+          const placeName = p.name ?? `Place ${idx + 1}`;
+          const placeLocation = p.location;
+          return {
+            id: p.id?.toString() ?? `${dayNumber}-${idx}`,
+            name: placeName,
+            location: placeLocation,
+            tags: p.tags,
+            rating: p.rating,
+            reviews: p.reviews,
+            description: p.description ?? p.details ?? "",
+            priceLabel: p.priceLabel ?? p.price ?? "",
+            timeLabel: p.timeLabel ?? p.duration ?? "",
+            mapUrl: p.mapUrl ?? p.map_url ?? buildMapUrl(placeName, placeLocation),
+          };
+        });
       } else if (Array.isArray(d.plan)) {
         // Only "plan" text exists → convert each activity into a simple card
         places = d.plan.map((txt: string, idx: number) => ({
@@ -251,11 +284,22 @@ export default function ResultPage() {
   };
 
   // ---------- PDF EXPORT FUNCTION ----------
- // ---------- PDF EXPORT FUNCTION ----------
-const downloadPDF = () => {
-  generatePdfFromElement("trip-content", "voyagr_trip.pdf");
-};
-
+  const downloadPDF = () => {
+    if (!uiDays.length) {
+      console.warn("No itinerary days to export");
+      return;
+    }
+    // Get trip title
+    const pdfTitle = payload?.title ||
+      (payload?.cities && payload.cities.length
+        ? `Trip to ${payload.cities.join(", ")}`
+        : payload?.country
+        ? `Trip to ${payload.country}`
+        : "Your Trip");
+    
+    // uiDays is compatible with PDFDay[]
+    generatePdfFromItinerary(pdfTitle, uiDays as any, "voyagr_trip.pdf");
+  };
 
   if (loading) return <p className="m-4">Loading AI response...</p>;
   if (error) return <p className="m-4 text-red-600">Error: {error}</p>;
@@ -278,12 +322,15 @@ const downloadPDF = () => {
       <BackButton />
 
       {/* Top-right bar: theme toggle + username + logout */}
-      <div className="flex flex-row items-center gap-4 fixed top-4 right-16 m-2 p-2 font-nunito z-40">
-        <Button variant="wout_border" onClick={handleToggleTheme}>
-          {isDark ? "Light Mode" : "Dark Mode"}
-        </Button>
-        <p className="font-medium">Username</p>
-        <Button variant="wout_border" onClick={() => navigate("/")}>
+      <div className="flex flex-row items-center justify-center gap-4 fixed top-4 right-16 m-2 p-2 font-nunito z-40">
+        <p className="justify-start font-medium">{username}</p>
+        <ThemeToggle />
+        <Button variant="wout_border" onClick={() => {
+    localStorage.removeItem("access_token"); // clear token
+    window.dispatchEvent(new Event("authChange")); // notify other components
+    navigate("/auth"); // go to login/signup page
+  }}
+>
           Logout
         </Button>
       </div>
@@ -300,9 +347,9 @@ const downloadPDF = () => {
         <div id="trip-content">
           {/* ========== ITINERARY → TIMELINE UI ========== */}
           {type === "itinerary" && (
-            <div className="min-h-screen bg-white text-myblack dark:bg-gray-900 dark:text-gray-50">
+            <div className="min-h-screen text-myblack dark:text-gray-50">
               {/* Header similar to timeline design */}
-              <header className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 mb-4">
+              <header className="sticky top-0 z-10 dark:border-gray-700 mb-4">
                 <div className="max-w-6xl mx-auto px-6 py-4">
                   <div className="text-xl font-semibold text-gray-500">
                     mytrip/
@@ -363,6 +410,7 @@ const downloadPDF = () => {
                                   description={p.description}
                                   priceLabel={p.priceLabel}
                                   timeLabel={p.timeLabel}
+                                  mapUrl={p.mapUrl}
                                   // NEW callbacks:
                                   onMoveUp={() =>
                                     handleMovePlace(idx, placeIdx, "up")
@@ -415,20 +463,27 @@ const downloadPDF = () => {
 
               <main className="max-w-6xl mx-auto px-6 py-2 pb-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(payload.places ?? []).map((p: any, idx: number) => (
-                    <PlaceCard
-                      key={p.id?.toString() ?? `place-${idx}`}
-                      id={p.id?.toString() ?? `place-${idx}`}
-                      name={p.name ?? "Unnamed place"}
-                      location={p.location}
-                      tags={p.tags}
-                      rating={p.rating}
-                      reviews={p.reviews}
-                      description={p.description}
-                      priceLabel={p.priceLabel}
-                      timeLabel={p.timeLabel}
-                    />
-                  ))}
+                  {(payload.places ?? []).map((p: any, idx: number) => {
+                    const placeName = p.name ?? "Unnamed place";
+                    const placeLocation = p.location;
+                    const mapUrl = p.mapUrl ?? p.map_url ?? buildMapUrl(placeName, placeLocation);
+                    
+                    return (
+                      <PlaceCard
+                        key={p.id?.toString() ?? `place-${idx}`}
+                        id={p.id?.toString() ?? `place-${idx}`}
+                        name={placeName}
+                        location={placeLocation}
+                        tags={p.tags}
+                        rating={p.rating}
+                        reviews={p.reviews}
+                        description={p.description}
+                        priceLabel={p.priceLabel}
+                        timeLabel={p.timeLabel}
+                        mapUrl={mapUrl}
+                      />
+                    );
+                  })}
                 </div>
               </main>
             </div>

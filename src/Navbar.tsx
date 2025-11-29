@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; 
 import Button from "./Button";
-import { Home, Binoculars, Info, LogOut } from "lucide-react";
+import { Home, Binoculars, Info, LogIn } from "lucide-react";
 import ThemeToggle from "./components/theme-toggle";
 
 const buttonStyle = `
@@ -34,7 +34,8 @@ export default function Navbar({
   // Check auth token
   const checkAuth = () => {
     const token = localStorage.getItem("access_token");
-    setIsLoggedIn(!!token);
+    // Check if token exists and is not the string "undefined" or "null"
+    setIsLoggedIn(!!token && token !== "undefined" && token !== "null");
   };
 
   useEffect(() => {
@@ -141,11 +142,20 @@ export default function Navbar({
               </span>
             </Button>
 
-            {isLoggedIn && (
+            {/* {isLoggedIn && (
               <Button color="myred" variant="wout_border" onClick={handleLogout}>
                 <span className="relative min-w-[90px] h-8 flex items-center justify-center group font-nunito">
                   <span className="absolute transition-opacity duration-200 group-hover:opacity-0">Logout</span>
                   <LogOut className="absolute w-6 h-6 opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:scale-125" />
+                </span>
+              </Button>
+            )} */}
+
+            {!isLoggedIn && (
+              <Button color="myred" variant="wout_border" onClick={() => navigate("/auth?mode=login")}>
+                <span className="relative min-w-[90px] h-8 flex items-center justify-center group font-nunito">
+                  <span className="absolute transition-opacity duration-200 group-hover:opacity-0">Sign In</span>
+                  <LogIn className="absolute w-6 h-6 opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:scale-125" />
                 </span>
               </Button>
             )}
