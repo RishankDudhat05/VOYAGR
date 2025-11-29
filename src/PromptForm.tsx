@@ -83,9 +83,16 @@ export default function PromptForm() {
 
     const start = new Date(startDate);
     const end = new Date(endDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); 
 
+    // dates must not be in the past
+    if (start < today || end < today) {
+      alert("Dates cannot be in the past.");
+      return;
+    }
     // start date must be strictly less than end date
-    if (start >= end) {
+    if (start > end) {
       alert("Start date must be earlier than end date.");
       return;
     }
