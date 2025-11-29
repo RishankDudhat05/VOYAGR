@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Body
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.exceptions import OutputParserException
+from pydantic import BaseModel
+from typing import List
 
 from database import users_collection
 from schemas import UserResponse
@@ -14,9 +16,15 @@ router = APIRouter(
     tags=["Search History & Recommendations"]
 )
 
+class RecommendationRequest(BaseModel):
+    added_places: List[str] = []
+    top_k: int = 5
+    exclude: List[str] = []
+
 recommendations_prompt = (
     "You are a personalized travel recommendation AI assistant.\n"
-    "The user has made several travel-related searches recently. Based on their search history, "
+    "The user has made several travel-related searches recently and has also manually added some places to their itinerary. "
+    "Based on their search history AND the places they have already selected, "
     "generate tailored travel recommendations that match their interests.\n\n"
     "You must ALWAYS return a single, valid JSON object with the following structure:\n"
     "{{\n"
@@ -31,9 +39,9 @@ recommendations_prompt = (
     '      "open_days": "Days open if applicable"\n'
     '    }}\n'
     '  ],\n'
-    '  "summary": "A brief summary explaining why these recommendations match their search history"\n'
+    '  "summary": "A brief summary explaining why these recommendations match their search history and selected places"\n'
     "}}\n\n"
-    "CRITICAL: Use double quotes for all JSON keys and string values. Return 5-10 diverse recommendations."
+    "CRITICAL: Use double quotes for all JSON keys and string values. When a desired count (top_k) is provided, return exactly that many recommendations; otherwise return 5 recommendations by default."
 )
 
 llm = ChatGroq(
@@ -44,15 +52,19 @@ llm = ChatGroq(
 
 prompt_template = ChatPromptTemplate.from_messages([
     ("system", recommendations_prompt),
-    ("user", "Based on these recent searches:\n{search_history}\n\nProvide personalized travel recommendations.")
+    (
+        "user",
+        "Based on these recent searches:\n{search_history}\n\nAnd these places already added to the itinerary:\n{added_places}\n\nDo NOT recommend these places (already seen/selected):\n{exclude_list}\n\nReturn exactly {top_k} recommendations and provide a short summary explaining why these recommendations match the user's interests."
+    ),
 ])
 
 parser = JsonOutputParser()
 recommendations_chain = prompt_template | llm | parser
 
 
-@router.get("/personalized", summary="Get personalized recommendations based on search history")
+@router.post("/personalized", summary="Get personalized recommendations based on search history and added places")
 async def get_personalized_recommendations(
+    request: RecommendationRequest = Body(...),
     current_user: UserResponse = Depends(get_current_user)
 ):
     try:
@@ -62,21 +74,29 @@ async def get_personalized_recommendations(
             raise HTTPException(status_code=404, detail="User not found")
         
         search_history = user.get("search_history", [])
+        added_places = request.added_places
         
-        if not search_history:
+        if not search_history and not added_places:
             return {
                 "recommendations": [],
                 "based_on_searches": [],
-                "summary": "No search history found. Start searching to get personalized recommendations!"
+                "summary": "No search history or added places found. Start searching or adding places to get personalized recommendations!"
             }
         
         queries = [item["query"] for item in search_history[-5:]]
         
         search_history_text = "\n".join([f"- {query}" for query in queries])
+        added_places_text = "\n".join([f"- {place}" for place in added_places])
+        exclude_text = "\n".join([f"- {place}" for place in request.exclude])
         
-        print(f"Generating recommendations for searches: {queries}")
+        print(f"Generating recommendations for searches: {queries} and added places: {added_places}")
         
-        result = await recommendations_chain.ainvoke({"search_history": search_history_text})
+        result = await recommendations_chain.ainvoke({
+            "search_history": search_history_text,
+            "added_places": added_places_text,
+            "exclude_list": exclude_text,
+            "top_k": str(request.top_k),
+        })
         
         # Ensure result is a dict
         if not isinstance(result, dict):
@@ -84,6 +104,7 @@ async def get_personalized_recommendations(
             result = {"recommendations": [], "summary": "Invalid response format"}
         
         result["based_on_searches"] = queries
+        result["based_on_added_places"] = added_places
         
         return result
     
