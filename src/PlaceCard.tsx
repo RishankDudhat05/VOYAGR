@@ -11,7 +11,10 @@ export type PlaceCardProps = {
   daysLabel?: string;
   forceBlack?: boolean;
 
-  // NEW: actions for itinerary editing
+  // map URL for Google Maps
+  mapUrl?: string;
+
+  // actions for itinerary editing
   onMoveUp?: () => void;
   onMoveDown?: () => void;
   onDelete?: () => void;
@@ -28,6 +31,7 @@ export default function PlaceCard({
   timeLabel,
   daysLabel,
   forceBlack = false,
+  mapUrl,
   onMoveUp,
   onMoveDown,
   onDelete,
@@ -47,7 +51,18 @@ export default function PlaceCard({
       {/* Header */}
       <div className="flex justify-between gap-4">
         <div>
-          <h3 className="m-0 text-[20px] font-bold">{name}</h3>
+          {mapUrl ? (
+            <a
+              href={mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="m-0 text-[20px] font-bold text-myred hover:underline"
+            >
+              {name}
+            </a>
+          ) : (
+            <h3 className="m-0 text-[20px] font-bold">{name}</h3>
+          )}
 
           {location && (
             <div className="mt-1 text-[13px] opacity-70">{location}</div>
