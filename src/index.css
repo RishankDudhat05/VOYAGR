@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+body {
+  cursor: url("/pointer.png") 16 16, auto;
+}
