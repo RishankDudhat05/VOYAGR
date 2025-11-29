@@ -45,7 +45,7 @@ export default function MiniPlaceCard({
 
         <div className="flex items-center gap-1 text-sm text-myblack/80 dark:text-white/80">
           <Star size={16} className="fill-yellow-500 dark:fill-blue-500" />
-          <span className="text-myblack/90 dark:text-mywhite/90">{rating}</span>
+          <span className="text-myblack/90 dark:text-mywhite/90">{rating.toFixed(1)}</span>
           <span className="text-myblack/70 dark:text-mywhite/70">
             ({reviews} reviews)
           </span>
