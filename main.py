@@ -19,7 +19,7 @@ app.include_router(manual.router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173",
-                   "https://voyagrg13-two.vercel.app"
+                   "https://voyagr-two.vercel.app"
                   ],
     allow_credentials=True,
     allow_methods=["*"],
