@@ -1,3 +1,5 @@
+import React from "react";
+
 interface DayTextProps {
   day_num: number;
   activities: string;
@@ -11,4 +13,3 @@ export default function DayText({ day_num, activities }: DayTextProps) {
     </div>
   );
 }
-

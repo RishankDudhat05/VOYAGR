@@ -40,24 +40,18 @@ const colorClasses: Record<
 colorClasses.red = colorClasses.myred;
 colorClasses.black = colorClasses.myblack;
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   color?: keyof typeof colorClasses;
   variant?: "solid" | "filled" | "wout_border" | "filled_wout_border";
-  onClick?: () => void;
-  onMouseDown?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onMouseUp?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onMouseLeave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({
   children,
   color = "myred",
   variant = "solid",
-  onClick,
-  onMouseDown,
-  onMouseUp,
-  onMouseLeave,
+  className = "",
+  ...props
 }: ButtonProps) {
   const selectedColor = colorClasses[color] || colorClasses.myred;
   const selectedVariant = selectedColor[variant] || selectedColor.solid;
@@ -66,16 +60,13 @@ export default function Button({
     <>
       <style>{buttonStyle}</style>
       <button
-        onClick={onClick}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseLeave}
+        {...props}
         className={`inline-flex items-center justify-center m-2
           text-base font-medium rounded-full
           shadow-sm font-nunito
           transition-colors duration-200
           px-4 py-2
-          ${selectedVariant}`}
+          ${selectedVariant} ${className} ${props.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
       >
         {children}
       </button>

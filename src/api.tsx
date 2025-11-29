@@ -1,5 +1,4 @@
-
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 export async function getAIResponse(prompt: string): Promise<any> {
   const token = localStorage.getItem("access_token"); 
   const res = await fetch(
@@ -89,12 +88,151 @@ export async function verifyOtp(email: string, otp: string) {
 export async function logoutRequest() {
   const token = localStorage.getItem("access_token");
 
-  const res = await fetch("http://localhost:8000/auth/logout", {
+  const res = await fetch(`${backendUrl}/auth/logout`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  return res.json();
+}
+
+
+export async function createManualTrip(data: any, token: string) {
+  const res = await fetch(`${backendUrl}/manual/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // must include auth
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to save manual itinerary");
+  }
+
+  return res.json();
+}
+
+export async function getUserProfile() {
+  const token = localStorage.getItem("access_token");
+  if (!token) throw new Error("No token found");
+
+  const res = await fetch(`${backendUrl}/auth/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch user profile");
+  }
+
+  return res.json();
+}
+
+export async function deleteAccount() {
+  const token = localStorage.getItem("access_token");
+  if (!token) throw new Error("No token found");
+
+  const res = await fetch(`${backendUrl}/auth/delete-account`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`Failed to delete account: ${res.status} ${txt}`);
+  }
+
+  localStorage.removeItem("access_token");
+  return res.json();
+}
+
+export async function submitReview(review: string) {
+  const token = localStorage.getItem("access_token");
+  if (!token) throw new Error("No token found");
+
+  const res = await fetch(`${backendUrl}/auth/submit-review`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ review }),
+  });
+
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`Failed to submit review: ${res.status} ${txt}`);
+  }
+
+  return res.json();
+}
+
+export async function getReviews() {
+  const res = await fetch(`${backendUrl}/auth/reviews`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch reviews");
+  }
+
+  return res.json();
+}
+
+export async function getLocationRecommendations(
+  placeName: string,
+  location: string,
+  exclude: string[] = [],
+  topK: number = 5
+) {
+  const token = localStorage.getItem("access_token");
+  if (!token) throw new Error("No token found");
+
+  const res = await fetch(`${backendUrl}/manual/location-recommendations`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ place_name: placeName, location: location, exclude: exclude, top_k: topK }),
+  });
+
+  if (!res.ok) {
+    const txt = await res.text();
+    console.error("Backend error:", res.status, txt);
+    throw new Error(`Failed to fetch location recommendations: ${res.status} ${txt}`);
+  }
+
+  return res.json();
+}
+
+export async function getRecommendations(
+  addedPlaces: string[] = [],
+  topK: number = 5,
+  exclude: string[] = []
+) {
+  const token = localStorage.getItem("access_token");
+  if (!token) throw new Error("No token found");
+
+  const res = await fetch(`${backendUrl}/recommendations/personalized`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ added_places: addedPlaces, top_k: topK, exclude: exclude }),
+  });
+
+  if (!res.ok) {
+    const txt = await res.text();
+    console.error("Backend error:", res.status, txt);
+    throw new Error(`Failed to fetch recommendations: ${res.status} ${txt}`);
+  }
 
   return res.json();
 }
