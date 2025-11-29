@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import TextField from "./input_field";
-import Button from "./Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { sendOtp, verifyOtp } from "./api"; // ← ADD THIS
 

@@ -50,12 +50,6 @@ export default function Navbar({
     };
   }, []);
 
-  // Logout function
-  const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    window.dispatchEvent(new Event("authChange"));
-    navigate("/auth?mode=login");
-  };
 
   return (
     <>

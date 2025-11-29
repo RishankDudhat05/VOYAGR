@@ -360,7 +360,14 @@ export default function ManualPlannerForm({
       notes: state.notes,
     };
 
-    // Navigate to result page with the manual itinerary
+    // Invoke optional callback and navigate to result page with the manual itinerary
+    try {
+      onSubmitComplete?.(itineraryPayload);
+    } catch (err) {
+      // ignore callback errors here
+      console.warn("onSubmitComplete callback failed", err);
+    }
+
     navigate("/results", { state: { manualItinerary: itineraryPayload } });
   };
 

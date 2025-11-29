@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import TextField from "./input_field";
 import Button from "./Button";
@@ -13,24 +13,7 @@ const styleBlock = `
   .font-nunito { font-family: 'Nunito', sans-serif; }
 `;
 
-type ContentCardProps = {
-  heading?: React.ReactNode;
-  children?: React.ReactNode;
-};
-function ContentCard({ heading, children }: ContentCardProps) {
-  return (
-    <div className="h-full w-full">
-      {heading && <h4 className="text-lg font-semibold mb-2">{heading}</h4>}
-      <div className="text-sm text-gray-200">{children}</div>
-    </div>
-  );
-}
-
-const scrollToTop = () => {
-  if (typeof window !== "undefined") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-};
+// ContentCard and scrollToTop were removed because they were declared but never used.
 
 export default function PromptForm() {
   const [prompt, setPrompt] = useState("");

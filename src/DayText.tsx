@@ -1,5 +1,3 @@
-import React from "react";
-
 interface DayTextProps {
   day_num: number;
   activities: string;
